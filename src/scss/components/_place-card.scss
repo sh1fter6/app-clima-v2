@@ -1,0 +1,119 @@
+@use '../base/variables' as *;
+
+@mixin card-elevation($hover: false) {
+  @if $hover {
+    box-shadow: 0 12px 25px rgba(255, 255, 255, 0.8);
+    transform: translateY(-5px);
+  } @else {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.place-card {
+  border: none;
+  border-radius: $border-radius-card;
+  background: $card-bg;
+  transition: transform $transition-speed ease, box-shadow $transition-speed ease;
+  cursor: pointer;
+  @include card-elevation(false);
+
+  &:hover {
+    @include card-elevation(true);
+    background: $card-hover-bg;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  &__name {
+    font-family: $font-family-title;
+    font-size: 1.5rem;
+    color: $text-dark;
+    margin: 0;
+  }
+
+  &__temp {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: $text-dark;
+  }
+
+  &__icon {
+    font-size: 3rem;
+  }
+
+  &__status {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #64748b;
+  }
+
+  &__badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 50px;
+  }
+
+  &--sunny {
+    border-left: 4px solid $accent-sunny;
+  }
+
+  &--cloudy {
+    border-left: 4px solid $accent-cloudy;
+  }
+
+  &--rainy {
+    border-left: 4px solid $accent-rainy;
+  }
+}
+
+.detail-card {
+  border: none;
+  border-radius: $border-radius-card;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+  &__title {
+    font-family: $font-family-title;
+  }
+}
+
+.weather-alert {
+  border-radius: 16px;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  &__icon {
+    font-size: 1.5rem;
+  }
+}
+
+.forecast-item {
+  border: none;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.85);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    background: #ffffff;
+  }
+
+  &__day {
+    font-weight: 600;
+  }
+
+  &__temp-max {
+    font-weight: 700;
+    color: #ef4444;
+  }
+
+  &__temp-min {
+    font-weight: 600;
+    color: #3b82f6;
+  }
+}

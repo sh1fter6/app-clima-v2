@@ -1,0 +1,96 @@
+@use '../base/variables' as *;
+
+body {
+  font-family: $font-family-body;
+  background: linear-gradient(135deg, $primary-blue 0%, $secondary-blue 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.background-decorations {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bg-cloud {
+  position: absolute;
+  background-image: url('../assets/background-cloud.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.8;
+
+  &--1 {
+    top: 15%;
+    left: 10%;
+    width: 250px;
+    height: 150px;
+  }
+
+  &--2 {
+    top: 40%;
+    right: 15%;
+    width: 350px;
+    height: 210px;
+  }
+
+  &--3 {
+    top: 70%;
+    left: 20%;
+    width: 180px;
+    height: 110px;
+  }
+}
+
+.weather-header {
+  &__title {
+    font-family: $font-family-title;
+  }
+
+  &__subtitle {
+    font-family: $font-family-body;
+  }
+}
+
+.weather-app {
+  &__grid-section {
+    width: 100%;
+  }
+}
+
+.weather-footer {
+  margin-top: auto;
+  font-family: $font-family-body;
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .weather-header__title {
+    font-size: 2.25rem;
+  }
+
+  .weather-app__main {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+@media (min-width: $breakpoint-desktop) {
+  .weather-header__title {
+    font-size: 3.5rem;
+  }
+
+  .weather-app__main {
+    max-width: 1200px;
+  }
+}

@@ -1,82 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-
-<head>
-  <!-- Metadatos y Estilos -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App de Clima - Inicio (Módulo 3 SASS/BEM)</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lily+Script+One&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body class="weather-app">
-  <!-- Nubes de fondo -->
-  <div class="background-decorations">
-    <div class="bg-cloud bg-cloud--1"></div>
-    <div class="bg-cloud bg-cloud--2"></div>
-    <div class="bg-cloud bg-cloud--3"></div>
-  </div>
-
-  <!-- Barra de navegación -->
-  <header class="weather-header">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm weather-nav">
-      <div class="container">
-        <a class="navbar-brand d-flex align-items-center weather-nav__brand" href="index.html">
-          <i class="fa-solid fa-cloud-sun fs-4 me-2 text-warning"></i><strong>ClimaApp</strong>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto weather-nav__list">
-            <li class="nav-item">
-              <a class="nav-link active weather-nav__link" aria-current="page" href="index.html">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link weather-nav__link" id="nav-detail-link" href="#">Detalle</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Contenido principal -->
-  <main class="container my-5 weather-app__main">
-    <section class="text-center mb-5 weather-header__banner">
-      <h1 class="display-4 fw-bold text-white weather-header__title">Pronóstico del Clima</h1>
-      <p class="lead text-white weather-header__subtitle">Selecciona una ciudad para ver el pronóstico detallado de la semana</p>
-    </section>
-
-    <section class="weather-app__grid-section">
-      <div class="row g-4" id="cities-grid">
-      </div>
-    </section>
-  </main>
-
-  <!-- Pie de página -->
-  <footer class="footer mt-auto py-4 bg-dark text-light border-top border-secondary weather-footer">
-    <div class="container text-center">
-      <p class="mb-1 weather-footer__copy">&copy; 2026 ClimaApp. Módulo 3 - Frontend (SASS & BEM).</p>
-      <small class="text-secondary weather-footer__tech">Desarrollado con HTML5, Bootstrap 5, SASS y JavaScript.</small>
-    </div>
-  </footer>
-
-  <!-- Scripts (POO y Asincronía Módulo 5) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="js/WeatherAPI.js"></script>
-  <script src="js/WeatherApp.js"></script>
-  <script src="js/app.js"></script>
-</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClimaApp - Módulo 6 (Vue 3 SPA + Vite)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lily+Script+One&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
