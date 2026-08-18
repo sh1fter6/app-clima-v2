@@ -1,94 +1,202 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useWeatherStore } from '../stores/weatherStore'
+import ChileMap from '../components/ChileMap.vue'
+import ClimaLocal from '../components/ClimaLocal.vue'
+import DetalleRegion from '../components/DetalleRegion.vue'
+import { fetchWeather } from '../api/weatherService'
+
+import comunasData from '../data/chile-comunas.json'
+import regionesData from '../data/regiones.json'
 
 const router = useRouter()
-const busqueda = ref('')
+const weatherStore = useWeatherStore()
 
-const ciudades = ref([
-  { id: 1, nombre: "Santiago", tempActual: 18, estadoActual: "Soleado", icono: "fa-solid fa-sun text-warning" },
-  { id: 2, nombre: "Pelotillehue", tempActual: 22, estadoActual: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-  { id: 3, nombre: "Concepción", tempActual: 14, estadoActual: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-  { id: 4, nombre: "Ciudad de México", tempActual: 25, estadoActual: "Soleado", icono: "fa-solid fa-sun text-warning" },
-  { id: 5, nombre: "Lima", tempActual: 19, estadoActual: "Nublado", icono: "fa-solid fa-cloud text-secondary" }
-])
+const regionHover = ref(null)
+const isLoadingRegion = ref(false)
 
-const ciudadesFiltradas = computed(() => {
-  if (!busqueda.value) return ciudades.value
-  const term = busqueda.value.toLowerCase().trim()
-  return ciudades.value.filter(c => c.nombre.toLowerCase().includes(term))
+const localWeather = ref(null)
+const unidad = ref('C')
+
+// Fetch clima local inicial (Santiago por defecto)
+onMounted(async () => {
+  try {
+    localWeather.value = await fetchWeather({
+      id: 'scl', nombre: 'Santiago', lat: -33.4569, lon: -70.6483
+    })
+  } catch (e) {
+    console.error('Error fetching local weather')
+  }
 })
 
-function obtenerEstadoMod(estado) {
-  const e = estado.toLowerCase()
-  if (e === 'soleado') return 'sunny'
-  if (e === 'nublado') return 'cloudy'
-  return 'rainy'
+// Metadata de la región hovered
+const regionHoverData = computed(() => {
+  if (!regionHover.value) return null
+  return regionesData.features.find(f => f.id === regionHover.value || f.properties.slug === regionHover.value)?.properties
+})
+
+// Computed para el clima promedio de la región hovered
+const regionHoverWeather = computed(() => {
+  if (!regionHover.value) return null
+  const comunas = weatherStore.getRegionWeather(regionHover.value)
+  if (!comunas || comunas.length === 0) return null
+
+  // Promedio básico de la región
+  let min = 999
+  let max = -999
+  let sumTemp = 0
+  let modeCondition = {}
+
+  comunas.forEach(c => {
+    sumTemp += c.tempActual
+    const dMin = c.pronosticoSemanal[0]?.min
+    const dMax = c.pronosticoSemanal[0]?.max
+    if (dMin < min) min = dMin
+    if (dMax > max) max = dMax
+    
+    modeCondition[c.estadoActual] = (modeCondition[c.estadoActual] || 0) + 1
+  })
+
+  const tempActual = Math.round(sumTemp / comunas.length)
+  const estadoActual = Object.keys(modeCondition).reduce((a, b) => modeCondition[a] > modeCondition[b] ? a : b)
+  
+  // Encontramos una ciudad con ese estado para robarle el label (simplificación)
+  const cityWithState = comunas.find(c => c.estadoActual === estadoActual)
+  const estadoLabel = cityWithState ? cityWithState.estadoLabel : 'Variado'
+
+  return { min, max, tempActual, estadoActual, estadoLabel }
+})
+
+// Manejo de Hover: disparamos el fetch lazy
+async function handleHover(regionId) {
+  regionHover.value = regionId
+  if (regionId && !weatherStore.getRegionWeather(regionId)) {
+    isLoadingRegion.value = true
+    const comunas = comunasData[regionId]
+    if (comunas) {
+      await weatherStore.fetchRegionWeather(regionId, comunas)
+    }
+    isLoadingRegion.value = false
+  }
 }
 
-function verDetalle(id) {
-  router.push(`/lugar/${id}`)
+// Click para navegar a la región
+function handleClick(regionId) {
+  if (regionId) {
+    router.push(`/${regionId}`)
+  }
 }
 </script>
 
 <template>
-  <main class="container my-5 weather-app__main">
-    <section class="text-center mb-4 weather-header__banner">
-      <h1 class="display-4 fw-bold text-white weather-header__title">Pronóstico del Clima (Vue 3 SPA)</h1>
-      <p class="lead text-white weather-header__subtitle">Selecciona una ciudad para ver el pronóstico detallado de la semana</p>
-    </section>
+  <div class="home-layout">
+    <!-- El fondo dinámico se queda en negro puro según reqs -->
+    <div class="bg-black"></div>
+    
+    <div class="split-screen">
+      <!-- Izquierda: Mapa SVG -->
+      <div class="map-side">
+        <ChileMap 
+          :regionActiva="regionHover" 
+          @hover="handleHover"
+          @click="handleClick"
+        />
+      </div>
 
-    <!-- Formulario de búsqueda interactivo con v-model (Requisito Módulo 6) -->
-    <section class="row justify-content-center mb-5">
-      <div class="col-12 col-md-8 col-lg-6">
-        <div class="input-group input-group-lg shadow-sm">
-          <span class="input-group-text bg-white border-0"><i class="fa-solid fa-magnifying-glass text-muted"></i></span>
-          <input 
-            type="text" 
-            class="form-control border-0" 
-            placeholder="Buscar ciudad por nombre..." 
-            v-model="busqueda"
+      <!-- Derecha: Detalles interactivos -->
+      <div class="details-side">
+        <div class="info-content">
+          <ClimaLocal 
+            :clima="localWeather" 
+            :unidad="unidad"
+            localidad="Santiago, Chile" 
           />
-          <button v-if="busqueda" class="btn btn-white bg-white border-0 text-muted" @click="busqueda = ''">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </div>
-    </section>
 
-    <!-- Mensaje si no hay resultados (v-if / v-else) -->
-    <section v-if="ciudadesFiltradas.length === 0" class="text-center py-5">
-      <div class="alert alert-warning d-inline-block px-4 py-3 rounded-pill shadow-sm">
-        <i class="fa-solid fa-circle-exclamation me-2"></i> No se encontraron ciudades que coincidan con "{{ busqueda }}".
-      </div>
-    </section>
-
-    <!-- Grilla de ciudades con v-for -->
-    <section v-else class="weather-app__grid-section">
-      <div class="row g-4">
-        <div v-for="city in ciudadesFiltradas" :key="city.id" class="col-12 col-md-6 col-lg-4">
-          <article 
-            class="card place-card h-100 p-4 text-center" 
-            :class="'place-card--' + obtenerEstadoMod(city.estadoActual)"
-            @click="verDetalle(city.id)"
-          >
-            <div class="card-body place-card__body d-flex flex-column justify-content-between">
-              <div>
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h2 class="place-card__name text-dark fw-bold m-0">{{ city.nombre }}</h2>
-                  <span class="badge bg-success text-white">Vue 3 SFC</span>
-                </div>
-                <div class="place-card__icon mb-3 text-center"><i :class="city.icono"></i></div>
-                <p class="place-card__temp text-primary mb-2">{{ city.tempActual }}°C</p>
-                <span class="place-card__badge badge bg-info text-dark px-3 py-2 rounded-pill">{{ city.estadoActual }}</span>
-              </div>
-              <div class="mt-4">
-                <button class="btn btn-primary btn-sm w-100 rounded-pill place-card__button">Ver Detalle</button>
-              </div>
+          <transition name="fade" mode="out-in">
+            <DetalleRegion 
+              v-if="regionHover"
+              :key="regionHover"
+              :region="regionHoverData"
+              :climaPromedio="regionHoverWeather"
+              :unidad="unidad"
+            />
+            <div v-else class="empty-state">
+              Pasa el cursor sobre el mapa para descubrir el clima de Chile.
             </div>
-          </article>
+          </transition>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.home-layout {
+  min-height: 100vh;
+  background-color: #050505; /* Fondo negro según reqs */
+  color: #ffffff;
+  overflow: hidden;
+}
+
+.bg-black {
+  position: fixed;
+  inset: 0;
+  background: #050505;
+  z-index: -1;
+}
+
+.split-screen {
+  display: flex;
+  height: 100vh;
+}
+
+.map-side {
+  flex: 0 0 35%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+
+.details-side {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.info-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Fija ClimaLocal arriba para que no salte al aparecer DetalleRegion */
+  padding-top: 2rem;
+  gap: 2rem;
+}
+
+.empty-state {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  opacity: 0.4;
+  margin-top: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

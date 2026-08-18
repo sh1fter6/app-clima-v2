@@ -1,314 +1,229 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useWeatherStore } from '../stores/weatherStore'
+import { getIcon, formatTemp, calcStats, calcAlerts } from '../data/weatherData.js'
+import comunasData from '../data/chile-comunas.json'
 
-const route = useRoute()
-const unidad = ref('C')
+const route   = useRoute()
+const weatherStore = useWeatherStore()
 
-const dataset = ref([
-  {
-    id: 1,
-    nombre: "Santiago",
-    tempActual: 18,
-    estadoActual: "Soleado",
-    icono: "fa-solid fa-sun text-warning",
-    humedad: "45%",
-    viento: "12 km/h",
-    pronosticoSemanal: [
-      { dia: "Lunes", min: 10, max: 24, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Martes", min: 12, max: 26, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Miércoles", min: 9, max: 20, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Jueves", min: 8, max: 18, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Viernes", min: 7, max: 19, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Sábado", min: 11, max: 22, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Domingo", min: 13, max: 25, estado: "Soleado", icono: "fa-solid fa-sun text-warning" }
-    ]
-  },
-  {
-    id: 2,
-    nombre: "Pelotillehue",
-    tempActual: 22,
-    estadoActual: "Nublado",
-    icono: "fa-solid fa-cloud text-secondary",
-    humedad: "80%",
-    viento: "18 km/h",
-    pronosticoSemanal: [
-      { dia: "Lunes", min: 15, max: 22, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Martes", min: 18, max: 25, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Miércoles", min: 17, max: 23, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Jueves", min: 16, max: 24, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Viernes", min: 19, max: 26, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Sábado", min: 20, max: 28, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Domingo", min: 22, max: 30, estado: "Soleado", icono: "fa-solid fa-sun text-warning" }
-    ]
-  },
-  {
-    id: 3,
-    nombre: "Concepción",
-    tempActual: 14,
-    estadoActual: "Lluvioso",
-    icono: "fa-solid fa-cloud-showers-heavy text-info",
-    humedad: "90%",
-    viento: "8 km/h",
-    pronosticoSemanal: [
-      { dia: "Lunes", min: 10, max: 14, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Martes", min: 9, max: 13, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Miércoles", min: 8, max: 15, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Jueves", min: 7, max: 14, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Viernes", min: 6, max: 12, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Sábado", min: 8, max: 16, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Domingo", min: 9, max: 18, estado: "Soleado", icono: "fa-solid fa-sun text-warning" }
-    ]
-  },
-  {
-    id: 4,
-    nombre: "Ciudad de México",
-    tempActual: 25,
-    estadoActual: "Soleado",
-    icono: "fa-solid fa-sun text-warning",
-    humedad: "40%",
-    viento: "10 km/h",
-    pronosticoSemanal: [
-      { dia: "Lunes", min: 14, max: 26, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Martes", min: 15, max: 27, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Miércoles", min: 16, max: 28, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Jueves", min: 15, max: 25, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Viernes", min: 14, max: 24, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Sábado", min: 13, max: 25, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Domingo", min: 12, max: 26, estado: "Soleado", icono: "fa-solid fa-sun text-warning" }
-    ]
-  },
-  {
-    id: 5,
-    nombre: "Lima",
-    tempActual: 19,
-    estadoActual: "Nublado",
-    icono: "fa-solid fa-cloud text-secondary",
-    humedad: "85%",
-    viento: "15 km/h",
-    pronosticoSemanal: [
-      { dia: "Lunes", min: 16, max: 20, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Martes", min: 16, max: 21, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Miércoles", min: 17, max: 22, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Jueves", min: 15, max: 20, estado: "Lluvioso", icono: "fa-solid fa-cloud-showers-heavy text-info" },
-      { dia: "Viernes", min: 16, max: 21, estado: "Nublado", icono: "fa-solid fa-cloud text-secondary" },
-      { dia: "Sábado", min: 17, max: 23, estado: "Soleado", icono: "fa-solid fa-sun text-warning" },
-      { dia: "Domingo", min: 16, max: 22, estado: "Soleado", icono: "fa-solid fa-sun text-warning" }
-    ]
+const unidad  = ref('C')
+const ciudad  = ref(null)
+const loading = ref(true)
+const error   = ref('')
+
+const stats  = computed(() => ciudad.value ? calcStats(ciudad.value.pronosticoSemanal) : null)
+const alertas = computed(() => stats.value ? calcAlerts(stats.value, ciudad.value.tempActual) : [])
+const bgClass = computed(() => {
+  if (!ciudad.value) return 'weather-bg--cloudy'
+  if (ciudad.value.estadoActual === 'sunny' && ciudad.value.tempActual >= 39) {
+    return 'weather-bg--hot'
   }
-])
-
-const ciudad = computed(() => {
-  const id = route.params.id
-  return dataset.value.find(c => c.id == id) || dataset.value[0]
+  return `weather-bg--${ciudad.value.estadoActual}`
 })
 
-const stats = computed(() => {
-  if (!ciudad.value) return { min: 0, max: 0, promedio: 0, soleados: 0, nublados: 0, lluviosos: 0, resumen: '' }
-  const pronostico = ciudad.value.pronosticoSemanal
-  let minTotal = pronostico[0].min
-  let maxTotal = pronostico[0].max
-  let sumaPromedios = 0
-  const conteos = { "Soleado": 0, "Nublado": 0, "Lluvioso": 0 }
-
-  pronostico.forEach(dia => {
-    if (dia.min < minTotal) minTotal = dia.min
-    if (dia.max > maxTotal) maxTotal = dia.max
-    sumaPromedios += (dia.min + dia.max) / 2
-    if (conteos[dia.estado] !== undefined) conteos[dia.estado]++
-  })
-
-  const promedioTotal = (sumaPromedios / pronostico.length).toFixed(1)
-  let resumen = "Clima muy variado esta semana."
-  if (conteos["Soleado"] > conteos["Nublado"] && conteos["Soleado"] > conteos["Lluvioso"]) {
-    resumen = "Semana mayormente soleada y templada."
-  } else if (conteos["Lluvioso"] > conteos["Soleado"]) {
-    resumen = "Semana con precipitaciones frecuentes."
-  } else if (conteos["Nublado"] > conteos["Soleado"]) {
-    resumen = "Semana predominantemente cubierta y nublada."
+async function cargar() {
+  loading.value = true
+  error.value   = ''
+  const region = route.params.region || 'global'
+  const city = route.params.city
+  
+  // Intenta recuperar de la store (caché lazy-load)
+  let cityData = weatherStore.getCityWeather(region, city)
+  
+  // Si no está, lo buscamos en el diccionario estático usando el ID (slug)
+  if (!cityData) {
+    const localCity = comunasData[region]?.find(c => c.id === city)
+    if (localCity) {
+      // Forzamos el fetch hidratando desde las coordenadas locales
+      await weatherStore.fetchRegionWeather(region, [localCity])
+      cityData = weatherStore.getCityWeather(region, city)
+    }
+  }
+  // Si tenemos datos parciales (ej: de NavBar antigua) pero no el pronóstico
+  else if (cityData && !cityData.pronosticoSemanal && cityData.lat && cityData.lon) {
+    await weatherStore.fetchRegionWeather(region, [cityData])
+    cityData = weatherStore.getCityWeather(region, city)
   }
 
-  return {
-    min: minTotal,
-    max: maxTotal,
-    promedio: promedioTotal,
-    soleados: conteos["Soleado"],
-    nublados: conteos["Nublado"],
-    lluviosos: conteos["Lluvioso"],
-    resumen: resumen
+  if (cityData && cityData.pronosticoSemanal) {
+    ciudad.value = cityData
+    loading.value = false
+  } else {
+    error.value = 'No se encontraron datos completos para esta ciudad. Asegúrate de tener conexión.'
+    loading.value = false
   }
-})
-
-const alertas = computed(() => {
-  const res = []
-  const s = stats.value
-  const tempActual = ciudad.value ? ciudad.value.tempActual : 0
-
-  if (s.max >= 25 || tempActual >= 25) {
-    res.push({
-      tipo: "danger",
-      icono: "fa-solid fa-fire text-danger",
-      titulo: "Alerta de Altas Temperaturas",
-      mensaje: `Se registran temperaturas de hasta ${tempFormateada(s.max)}. Se recomienda hidratación constante.`
-    })
-  }
-
-  if (s.lluviosos >= 2) {
-    res.push({
-      tipo: "warning",
-      icono: "fa-solid fa-cloud-showers-heavy text-warning",
-      titulo: "Alerta de Lluvias Frecuentes",
-      mensaje: `Se pronostican ${s.lluviosos} días con precipitaciones. Lleva tu paraguas.`
-    })
-  }
-
-  if (s.min <= 10) {
-    res.push({
-      tipo: "info",
-      icono: "fa-solid fa-snowflake text-info",
-      titulo: "Alerta de Bajas Temperaturas Matinales",
-      mensaje: `Mínimas de ${tempFormateada(s.min)} registradas en la semana. Abrígate bien temprano.`
-    })
-  }
-
-  if (res.length === 0) {
-    res.push({
-      tipo: "success",
-      icono: "fa-solid fa-circle-check text-success",
-      titulo: "Condiciones Favorables",
-      mensaje: "El tiempo se mantiene moderado sin alertas meteorológicas severas."
-    })
-  }
-
-  return res
-})
-
-function tempFormateada(valorCelsius) {
-  const num = parseFloat(valorCelsius)
-  if (isNaN(num)) return '0°C'
-  if (unidad.value === 'F') {
-    const fah = Math.round((num * 9 / 5) + 32)
-    return `${fah}°F`
-  }
-  return `${Math.round(num)}°C`
 }
+
+onMounted(() => cargar())
+watch(() => [route.params.region, route.params.city], () => cargar())
+
+const lunaEmoji = { 'Llena':'🌕','Nueva':'🌑','Creciente':'🌙','Menguante':'🌗','Cuarto creciente':'🌒' }
+function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
 </script>
 
 <template>
-  <main class="container my-5 weather-app__main">
-    <div v-if="!ciudad" class="text-center py-5">
-      <div class="alert alert-danger d-inline-block px-4 py-3 rounded-pill shadow-sm">
-        <i class="fa-solid fa-triangle-exclamation me-2"></i> Ciudad no encontrada.
-      </div>
-      <div class="mt-3">
-        <router-link to="/" class="btn btn-outline-light rounded-pill px-4">Volver al Inicio</router-link>
+  <div>
+    <div class="weather-bg" :class="bgClass">
+      <div v-for="i in 14" :key="i" class="particle"
+        :style="{ left: (Math.random()*100)+'%', width: (Math.random()*3+1.5)+'px', height: (Math.random()*3+1.5)+'px', animationDuration: (Math.random()*12+8)+'s', animationDelay: (Math.random()*10)+'s' }">
       </div>
     </div>
 
-    <div v-else class="row g-4">
-      <div class="col-12 col-lg-4">
-        <article class="card detail-card p-4 text-center h-100 d-flex flex-column justify-content-center">
-          <h1 class="display-4 fw-bold text-dark mb-2">{{ ciudad.nombre }}</h1>
-          <div class="display-1 my-3"><i :class="ciudad.icono"></i></div>
-          
-          <!-- Selector de Unidad °C / °F con v-model / @click (Interacción Módulo 6) -->
-          <div class="d-flex justify-content-center align-items-center mb-3">
-            <span class="display-3 fw-bold text-primary me-3">{{ tempFormateada(ciudad.tempActual) }}</span>
-            <div class="btn-group btn-group-sm" role="group">
-              <button 
-                type="button" 
-                class="btn" 
-                :class="unidad === 'C' ? 'btn-primary' : 'btn-outline-primary'" 
-                @click="unidad = 'C'"
-              >°C</button>
-              <button 
-                type="button" 
-                class="btn" 
-                :class="unidad === 'F' ? 'btn-primary' : 'btn-outline-primary'" 
-                @click="unidad = 'F'"
-              >°F</button>
-            </div>
-          </div>
+    <main class="app-content detail-page">
 
-          <p class="fs-4 text-secondary mb-4">{{ ciudad.estadoActual }}</p>
-          <div class="row g-2 mt-2">
-            <div class="col-6">
-              <div class="p-3 bg-weather-info text-start">
-                <small class="text-muted d-block uppercase text-xs">Humedad</small>
-                <span class="fs-5 fw-bold text-dark">{{ ciudad.humedad }}</span>
-              </div>
-            </div>
-            <div class="col-6">
-              <div class="p-3 bg-weather-info text-start">
-                <small class="text-muted d-block uppercase text-xs">Viento</small>
-                <span class="fs-5 fw-bold text-dark">{{ ciudad.viento }}</span>
-              </div>
-            </div>
-          </div>
-        </article>
+      <!-- Loading -->
+      <div v-if="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Obteniendo datos meteorológicos en tiempo real...</p>
       </div>
 
-      <div class="col-12 col-lg-8">
-        <!-- Alertas de Clima -->
-        <section class="card detail-card p-4 mb-4">
-          <h2 class="h4 fw-bold text-dark mb-3"><i class="fa-solid fa-triangle-exclamation text-warning me-2"></i>Alertas de Clima</h2>
-          <div v-for="(alerta, idx) in alertas" :key="idx" :class="'alert alert-' + alerta.tipo" class="d-flex align-items-center mb-3 shadow-sm" role="alert">
-            <i :class="alerta.icono" class="fs-4 me-3"></i>
-            <div>
-              <strong class="d-block">{{ alerta.titulo }}</strong>
-              <span>{{ alerta.mensaje }}</span>
-            </div>
-          </div>
-        </section>
-
-        <!-- Pronóstico de la semana -->
-        <section class="card detail-card p-4 d-flex flex-column justify-content-between mb-4">
-          <h2 class="h3 fw-bold text-dark mb-4">Pronóstico de la Semana</h2>
-          <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-7 g-3">
-            <div v-for="(day, idx) in ciudad.pronosticoSemanal" :key="idx" class="col">
-              <div class="card forecast-item p-2 h-100 text-center">
-                <p class="text-muted fw-bold mb-1 small">{{ day.dia }}</p>
-                <div class="fs-3 my-1"><i :class="day.icono"></i></div>
-                <p class="fw-bold text-dark mb-1 small">{{ tempFormateada(day.min) }} - {{ tempFormateada(day.max) }}</p>
-                <small class="text-secondary d-block" style="font-size: 0.7rem; line-height: 1.1;">{{ day.estado }}</small>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Estadísticas de la semana -->
-        <section class="card detail-card p-4">
-          <h2 class="h3 fw-bold text-dark mb-4">Estadísticas de la semana</h2>
-          <div class="row g-3">
-            <div class="col-md-4">
-              <div class="p-3 bg-light rounded text-center h-100 d-flex flex-column justify-content-center">
-                <h4 class="h5 text-muted mb-2">Min / Max</h4>
-                <p class="fs-4 fw-bold text-primary mb-0">{{ tempFormateada(stats.min) }} / {{ tempFormateada(stats.max) }}</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="p-3 bg-light rounded text-center h-100 d-flex flex-column justify-content-center">
-                <h4 class="h5 text-muted mb-2">Promedio</h4>
-                <p class="fs-4 fw-bold text-primary mb-0">{{ tempFormateada(stats.promedio) }}</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="p-3 bg-light rounded text-center h-100 d-flex flex-column justify-content-center">
-                <h4 class="h5 text-muted mb-2">Días</h4>
-                <small class="d-block fw-bold text-dark">{{ stats.soleados }} Soleados</small>
-                <small class="d-block fw-bold text-dark">{{ stats.nublados }} Nublados</small>
-                <small class="d-block fw-bold text-dark">{{ stats.lluviosos }} Lluviosos</small>
-              </div>
-            </div>
-          </div>
-          <div class="mt-4 p-3 bg-info bg-opacity-10 rounded text-center">
-            <p class="fs-5 fw-bold text-dark mb-0">{{ stats.resumen }}</p>
-          </div>
-          <div class="mt-4 text-end">
-            <router-link to="/" class="btn btn-outline-secondary rounded-pill px-4">Volver al Inicio</router-link>
-          </div>
-        </section>
+      <!-- Error -->
+      <div v-else-if="error" class="error-state">
+        <span>⚠️</span><p>{{ error }}</p>
+        <router-link to="/" class="back-btn" style="margin-top:1rem;">← Volver</router-link>
       </div>
-    </div>
-  </main>
+
+      <!-- Contenido real -->
+      <template v-else-if="ciudad">
+
+        <!-- ── HERO: ciudad / temp / métricas ──────────────────────────── -->
+        <div class="d-hero staggered-item" style="animation-delay: 0.1s">
+          <div class="d-hero__main">
+            <div class="d-hero__city-row">
+              <div>
+                <span class="d-hero__city">{{ ciudad.nombre }}</span>
+                <span class="weather-card__live-dot" title="Datos en vivo" style="margin-left:0.5rem"></span>
+              </div>
+              <div class="unit-toggle">
+                <button :class="{ active: unidad==='C' }" @click="unidad='C'">°C</button>
+                <button :class="{ active: unidad==='F' }" @click="unidad='F'">°F</button>
+              </div>
+            </div>
+
+            <div class="d-hero__center">
+              <img class="d-hero__icon" :src="getIcon(ciudad.estadoActual)" :alt="ciudad.estadoLabel" />
+              <div>
+                <div class="d-hero__temp">{{ formatTemp(ciudad.tempActual, unidad) }}</div>
+                <div class="d-hero__condition">{{ ciudad.estadoLabel }}</div>
+                <div class="d-hero__feels">Sensación {{ formatTemp(ciudad.sensacion, unidad) }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-hero__divider"></div>
+
+          <div class="d-hero__metrics">
+            <div class="d-metric">
+              <span class="d-metric__ic">💧</span>
+              <div><div class="d-metric__lb">Humedad</div><div class="d-metric__vl">{{ ciudad.humedad }}</div></div>
+            </div>
+            <div class="d-metric">
+              <span class="d-metric__ic">💨</span>
+              <div><div class="d-metric__lb">Viento</div><div class="d-metric__vl">{{ ciudad.viento }}</div></div>
+            </div>
+            <div class="d-metric">
+              <span class="d-metric__ic">📊</span>
+              <div><div class="d-metric__lb">Presión</div><div class="d-metric__vl">{{ ciudad.presion }}</div></div>
+            </div>
+            <div class="d-metric">
+              <span class="d-metric__ic">🌧️</span>
+              <div><div class="d-metric__lb">Precipitación</div><div class="d-metric__vl">{{ ciudad.precipitacion }}</div></div>
+            </div>
+            <div class="d-metric">
+              <span class="d-metric__ic">{{ lunaIcon(ciudad.luna) }}</span>
+              <div><div class="d-metric__lb">Luna</div><div class="d-metric__vl">{{ ciudad.luna }}</div></div>
+            </div>
+            <div class="d-metric">
+              <span class="d-metric__ic">📈</span>
+              <div>
+                <div class="d-metric__lb">Máx / Mín hoy</div>
+                <div class="d-metric__vl">{{ formatTemp(ciudad.pronosticoSemanal[0]?.max, unidad) }} / {{ formatTemp(ciudad.pronosticoSemanal[0]?.min, unidad) }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SLIDER 12 HORAS ────────────────────────────────────────── -->
+        <div class="hourly-section staggered-item" style="animation-delay: 0.2s">
+          <h3 class="section-title">Próximas 12 horas</h3>
+          <div class="hourly-strip">
+            <div v-for="h in ciudad.pronosticoHoras" :key="h.hora" class="hourly-item">
+              <span class="hourly-item__time">{{ h.hora }}</span>
+              <img class="hourly-item__icon" :src="getIcon(h.estado)" :alt="h.estado" />
+              <span class="hourly-item__temp">{{ formatTemp(h.temp, unidad) }}</span>
+              <span v-if="h.prob > 0" class="hourly-item__prob">{{ h.prob }}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── DOS COLUMNAS: alertas + pronóstico ─────────────────────── -->
+        <div class="d-two-col staggered-item" style="animation-delay: 0.3s">
+          <div class="glass-panel">
+            <h3 class="section-title">Alertas</h3>
+            <div v-for="(a, i) in alertas" :key="i" class="alert-item" :class="'alert-item--'+a.tipo">
+              <div class="alert-item__icon">{{ a.icon }}</div>
+              <div>
+                <div class="alert-item__title">{{ a.titulo }}</div>
+                <div class="alert-item__msg">{{ a.msg }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-panel">
+            <h3 class="section-title">Pronóstico 7 días</h3>
+            <div class="forecast-compact">
+              <div v-for="(d, i) in ciudad.pronosticoSemanal" :key="i" class="forecast-compact__row">
+                <span class="forecast-compact__day">{{ d.dia }}</span>
+                <img class="forecast-compact__icon" :src="getIcon(d.estado)" :alt="d.estado" />
+                <div class="forecast-compact__bar-wrap">
+                  <span class="forecast-compact__min">{{ formatTemp(d.min, unidad) }}</span>
+                  <div class="forecast-compact__bar">
+                    <div class="forecast-compact__fill" :style="{ width: Math.min(100, Math.max(8, Math.round(((d.max-d.min)/25)*100)))+'%' }"></div>
+                  </div>
+                  <span class="forecast-compact__max">{{ formatTemp(d.max, unidad) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STATS ──────────────────────────────────────────────────── -->
+        <div class="glass-panel staggered-item" style="animation-delay: 0.4s">
+          <h3 class="section-title">Resumen semanal</h3>
+          <div class="stats-inline">
+            <div class="stat-pill"><span class="stat-pill__label">Mín</span><span class="stat-pill__val">{{ formatTemp(stats.min, unidad) }}</span></div>
+            <div class="stat-pill"><span class="stat-pill__label">Máx</span><span class="stat-pill__val">{{ formatTemp(stats.max, unidad) }}</span></div>
+            <div class="stat-pill"><span class="stat-pill__label">Prom</span><span class="stat-pill__val">{{ formatTemp(stats.promedio, unidad) }}</span></div>
+            <div class="stat-pill"><span class="stat-pill__label">☀️</span><span class="stat-pill__val">{{ stats.soleados }}d</span></div>
+            <div class="stat-pill"><span class="stat-pill__label">⛅</span><span class="stat-pill__val">{{ stats.nublados }}d</span></div>
+            <div class="stat-pill"><span class="stat-pill__label">🌧️</span><span class="stat-pill__val">{{ stats.lluviosos }}d</span></div>
+          </div>
+          <div class="stats-summary">{{ stats.resumen }}</div>
+        </div>
+
+        <router-link :to="`/${route.params.region}`" class="back-btn">← Volver a la región</router-link>
+      </template>
+    </main>
+  </div>
 </template>
+
+<style scoped>
+/* Transición Staggered Internal */
+.staggered-item {
+  opacity: 0;
+  animation: fadeInUpScale 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes fadeInUpScale {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>

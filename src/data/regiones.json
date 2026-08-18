@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "arica",
+      "properties": { "nombre": "Arica y Parinacota", "numero": "XV", "slug": "arica", "capital": "Arica" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "tarapaca",
+      "properties": { "nombre": "Tarapacá", "numero": "I", "slug": "tarapaca", "capital": "Iquique" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "antofagasta",
+      "properties": { "nombre": "Antofagasta", "numero": "II", "slug": "antofagasta", "capital": "Antofagasta" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "atacama",
+      "properties": { "nombre": "Atacama", "numero": "III", "slug": "atacama", "capital": "Copiapó" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "coquimbo",
+      "properties": { "nombre": "Coquimbo", "numero": "IV", "slug": "coquimbo", "capital": "La Serena" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "valparaiso",
+      "properties": { "nombre": "Valparaíso", "numero": "V", "slug": "valparaiso", "capital": "Valparaíso" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "metropolitana",
+      "properties": { "nombre": "Metropolitana", "numero": "RM", "slug": "metropolitana", "capital": "Santiago" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "ohiggins",
+      "properties": { "nombre": "O'Higgins", "numero": "VI", "slug": "ohiggins", "capital": "Rancagua" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "maule",
+      "properties": { "nombre": "Maule", "numero": "VII", "slug": "maule", "capital": "Talca" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "nuble",
+      "properties": { "nombre": "Ñuble", "numero": "XVI", "slug": "nuble", "capital": "Chillán" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "biobio",
+      "properties": { "nombre": "Biobío", "numero": "VIII", "slug": "biobio", "capital": "Concepción" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "araucania",
+      "properties": { "nombre": "La Araucanía", "numero": "IX", "slug": "araucania", "capital": "Temuco" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "losrios",
+      "properties": { "nombre": "Los Ríos", "numero": "XIV", "slug": "losrios", "capital": "Valdivia" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "loslagos",
+      "properties": { "nombre": "Los Lagos", "numero": "X", "slug": "loslagos", "capital": "Puerto Montt" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "aysen",
+      "properties": { "nombre": "Aysén", "numero": "XI", "slug": "aysen", "capital": "Coyhaique" },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "id": "magallanes",
+      "properties": { "nombre": "Magallanes", "numero": "XII", "slug": "magallanes", "capital": "Punta Arenas" },
+      "geometry": null
+    }
+  ]
+}

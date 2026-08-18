@@ -1,23 +1,32 @@
-// Variables de Color
-$primary-blue: #1661d1;
-$secondary-blue: #93b7f0;
-$dark-bg: #1e293b;
-$card-bg: rgba(255, 255, 255, 0.95);
-$card-hover-bg: #ffffff;
-$text-dark: #1e293b;
-$text-light: #ffffff;
-$accent-sunny: #f59e0b;
-$accent-cloudy: #64748b;
-$accent-rainy: #0284c7;
+// ─── Paletas de clima (fondo dinámico) ────────────────────────────────────────
+$bg-sunny:   linear-gradient(135deg, #f7941d 0%, #ffd200 40%, #ffe36e 100%);
+$bg-cloudy:  linear-gradient(135deg, #485563 0%, #29323c 100%);
+$bg-rainy:   linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+$bg-clear-night: linear-gradient(135deg, #0d0d2b 0%, #1a1a4e 40%, #0a3d62 100%);
 
-// Variables de Tipografía
-$font-family-title: 'Lily Script One', cursive;
-$font-family-body: 'Outfit', sans-serif;
+// ─── Glass card tokens ────────────────────────────────────────────────────────
+$glass-bg:          rgba(255,255,255,0.12);
+$glass-bg-hover:    rgba(255,255,255,0.20);
+$glass-border:      rgba(255,255,255,0.22);
+$glass-inner-light: rgba(255,255,255,0.35);
+$glass-blur:        18px;
+$glass-blur-detail: 28px;
 
-// Variables de Espaciado y Bordes
-$border-radius-card: 24px;
-$transition-speed: 0.3s;
+// ─── Tipografía ───────────────────────────────────────────────────────────────
+$font-primary:  'Space Grotesk', sans-serif;
+$font-secondary: 'Inter', sans-serif;
 
-// Breakpoints
-$breakpoint-mobile: 420px;
-$breakpoint-desktop: 1024px;
+// ─── Sombras ──────────────────────────────────────────────────────────────────
+$shadow-card:      0 4px 24px rgba(0,0,0,0.25), 0 1.5px 4px rgba(0,0,0,0.18);
+$shadow-card-hover:0 6px 36px rgba(0,0,0,0.32), 0 3px 8px rgba(0,0,0,0.22);
+$shadow-text:      0 1px 8px rgba(0,0,0,0.45);
+$shadow-icon:      drop-shadow(0 2px 12px rgba(0,0,0,0.55));
+
+// ─── Radios ───────────────────────────────────────────────────────────────────
+$radius-card:   24px;
+$radius-pill:   999px;
+$radius-sm:     12px;
+
+// ─── Transiciones ─────────────────────────────────────────────────────────────
+$transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-fast:   all 0.18s ease;

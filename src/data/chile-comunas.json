@@ -1,0 +1,2061 @@
+{
+  "arica": [
+    {
+      "id": "arica",
+      "nombre": "Arica",
+      "lat": -18.4707,
+      "lon": -70.2945
+    },
+    {
+      "id": "camarones",
+      "nombre": "Camarones",
+      "lat": -18.9191,
+      "lon": -69.4532
+    },
+    {
+      "id": "generallagos",
+      "nombre": "General Lagos",
+      "lat": -17.7863,
+      "lon": -69.5452
+    },
+    {
+      "id": "putre",
+      "nombre": "Putre",
+      "lat": -18.2052,
+      "lon": -69.4946
+    }
+  ],
+  "tarapaca": [
+    {
+      "id": "altohospicio",
+      "nombre": "Alto Hospicio",
+      "lat": -20.2418,
+      "lon": -70.0762
+    },
+    {
+      "id": "iquique",
+      "nombre": "Iquique",
+      "lat": -20.2474,
+      "lon": -70.1187
+    },
+    {
+      "id": "camina",
+      "nombre": "Camiña",
+      "lat": -19.2855,
+      "lon": -69.4074
+    },
+    {
+      "id": "colchane",
+      "nombre": "Colchane",
+      "lat": -19.3585,
+      "lon": -68.7207
+    },
+    {
+      "id": "huara",
+      "nombre": "Huara",
+      "lat": -19.9617,
+      "lon": -69.8691
+    },
+    {
+      "id": "pica",
+      "nombre": "Pica",
+      "lat": -20.489,
+      "lon": -69.3225
+    },
+    {
+      "id": "pozoalmonte",
+      "nombre": "Pozo Almonte",
+      "lat": -20.2791,
+      "lon": -69.7609
+    }
+  ],
+  "antofagasta": [
+    {
+      "id": "antofagasta",
+      "nombre": "Antofagasta",
+      "lat": -23.6279,
+      "lon": -70.3884
+    },
+    {
+      "id": "mejillones",
+      "nombre": "Mejillones",
+      "lat": -23.0918,
+      "lon": -70.4713
+    },
+    {
+      "id": "sierragorda",
+      "nombre": "Sierra Gorda",
+      "lat": -22.8964,
+      "lon": -69.22
+    },
+    {
+      "id": "taltal",
+      "nombre": "Taltal",
+      "lat": -25.3617,
+      "lon": -70.466
+    },
+    {
+      "id": "calama",
+      "nombre": "Calama",
+      "lat": -22.4692,
+      "lon": -68.8974
+    },
+    {
+      "id": "ollague",
+      "nombre": "Ollague",
+      "lat": -21.1947,
+      "lon": -68.2992
+    },
+    {
+      "id": "sanpedrodeatacama",
+      "nombre": "San Pedro de Atacama",
+      "lat": -22.9085,
+      "lon": -68.1356
+    },
+    {
+      "id": "mariaelena",
+      "nombre": "María Elena",
+      "lat": -22.3501,
+      "lon": -69.6565
+    },
+    {
+      "id": "tocopilla",
+      "nombre": "Tocopilla",
+      "lat": -22.0871,
+      "lon": -70.1924
+    }
+  ],
+  "atacama": [
+    {
+      "id": "chanaral",
+      "nombre": "Chañaral",
+      "lat": -26.3588,
+      "lon": -70.5793
+    },
+    {
+      "id": "diegodealmagro",
+      "nombre": "Diego de Almagro",
+      "lat": -26.3699,
+      "lon": -69.9809
+    },
+    {
+      "id": "caldera",
+      "nombre": "Caldera",
+      "lat": -27.0715,
+      "lon": -70.817
+    },
+    {
+      "id": "copiapo",
+      "nombre": "Copiapó",
+      "lat": -27.3785,
+      "lon": -70.3159
+    },
+    {
+      "id": "tierraamarilla",
+      "nombre": "Tierra Amarilla",
+      "lat": -27.5673,
+      "lon": -70.2154
+    },
+    {
+      "id": "altodelcarmen",
+      "nombre": "Alto del Carmen",
+      "lat": -28.8183,
+      "lon": -70.3968
+    },
+    {
+      "id": "freirina",
+      "nombre": "Freirina",
+      "lat": -28.5618,
+      "lon": -71.0896
+    },
+    {
+      "id": "huasco",
+      "nombre": "Huasco",
+      "lat": -28.4665,
+      "lon": -71.2216
+    },
+    {
+      "id": "vallenar",
+      "nombre": "Vallenar",
+      "lat": -28.6113,
+      "lon": -70.7266
+    }
+  ],
+  "coquimbo": [
+    {
+      "id": "canela",
+      "nombre": "Canela",
+      "lat": -31.4502,
+      "lon": -71.5606
+    },
+    {
+      "id": "illapel",
+      "nombre": "Illapel",
+      "lat": -31.5777,
+      "lon": -71.1642
+    },
+    {
+      "id": "losvilos",
+      "nombre": "Los Vilos",
+      "lat": -31.9172,
+      "lon": -71.5014
+    },
+    {
+      "id": "salamanca",
+      "nombre": "Salamanca",
+      "lat": -31.8024,
+      "lon": -70.9259
+    },
+    {
+      "id": "andacollo",
+      "nombre": "Andacollo",
+      "lat": -30.2274,
+      "lon": -71.0571
+    },
+    {
+      "id": "coquimbo",
+      "nombre": "Coquimbo",
+      "lat": -29.9737,
+      "lon": -71.3156
+    },
+    {
+      "id": "lahiguera",
+      "nombre": "La Higuera",
+      "lat": -28.9939,
+      "lon": -70.379
+    },
+    {
+      "id": "laserena",
+      "nombre": "La Serena",
+      "lat": -29.9063,
+      "lon": -71.2346
+    },
+    {
+      "id": "vicuna",
+      "nombre": "Vicuña",
+      "lat": -30.0258,
+      "lon": -70.695
+    },
+    {
+      "id": "combarbala",
+      "nombre": "Combarbalá",
+      "lat": -31.1422,
+      "lon": -71.0127
+    },
+    {
+      "id": "montepatria",
+      "nombre": "Monte Patria",
+      "lat": -30.7177,
+      "lon": -70.9729
+    },
+    {
+      "id": "ovalle",
+      "nombre": "Ovalle",
+      "lat": -30.5999,
+      "lon": -71.1941
+    },
+    {
+      "id": "punitaqui",
+      "nombre": "Punitaqui",
+      "lat": -30.8355,
+      "lon": -71.2746
+    },
+    {
+      "id": "riohurtado",
+      "nombre": "Río Hurtado",
+      "lat": -30.3834,
+      "lon": -70.8295
+    }
+  ],
+  "valparaiso": [
+    {
+      "id": "isladepascua",
+      "nombre": "Isla de Pascua",
+      "lat": -27.156,
+      "lon": -109.435
+    },
+    {
+      "id": "callelarga",
+      "nombre": "Calle Larga",
+      "lat": -32.8599,
+      "lon": -70.6264
+    },
+    {
+      "id": "losandes",
+      "nombre": "Los Andes",
+      "lat": -32.8261,
+      "lon": -70.6012
+    },
+    {
+      "id": "rinconada",
+      "nombre": "Rinconada",
+      "lat": -35.4499,
+      "lon": -72.2658
+    },
+    {
+      "id": "sanesteban",
+      "nombre": "San Esteban",
+      "lat": -35.8673,
+      "lon": -72.4348
+    },
+    {
+      "id": "laligua",
+      "nombre": "La Ligua",
+      "lat": -32.4551,
+      "lon": -71.2428
+    },
+    {
+      "id": "papudo",
+      "nombre": "Papudo",
+      "lat": -32.5037,
+      "lon": -71.4328
+    },
+    {
+      "id": "petorca",
+      "nombre": "Petorca",
+      "lat": -32.2454,
+      "lon": -70.9183
+    },
+    {
+      "id": "zapallar",
+      "nombre": "Zapallar",
+      "lat": -32.556,
+      "lon": -71.4466
+    },
+    {
+      "id": "hijuelas",
+      "nombre": "Hijuelas",
+      "lat": -32.8213,
+      "lon": -71.1259
+    },
+    {
+      "id": "lacalera",
+      "nombre": "La Calera",
+      "lat": -32.7862,
+      "lon": -71.2009
+    },
+    {
+      "id": "lacruz",
+      "nombre": "La Cruz",
+      "lat": -32.8339,
+      "lon": -71.23
+    },
+    {
+      "id": "limache",
+      "nombre": "Limache",
+      "lat": -33.0043,
+      "lon": -71.2566
+    },
+    {
+      "id": "nogales",
+      "nombre": "Nogales",
+      "lat": -32.7097,
+      "lon": -71.2118
+    },
+    {
+      "id": "olmue",
+      "nombre": "Olmué",
+      "lat": -33.0038,
+      "lon": -71.162
+    },
+    {
+      "id": "quillota",
+      "nombre": "Quillota",
+      "lat": -32.8849,
+      "lon": -71.2536
+    },
+    {
+      "id": "algarrobo",
+      "nombre": "Algarrobo",
+      "lat": -33.3665,
+      "lon": -71.6665
+    },
+    {
+      "id": "cartagena",
+      "nombre": "Cartagena",
+      "lat": -33.5402,
+      "lon": -71.5987
+    },
+    {
+      "id": "elquisco",
+      "nombre": "El Quisco",
+      "lat": -33.4086,
+      "lon": -71.6865
+    },
+    {
+      "id": "eltabo",
+      "nombre": "El Tabo",
+      "lat": -33.4662,
+      "lon": -71.6414
+    },
+    {
+      "id": "sanantonio",
+      "nombre": "San Antonio",
+      "lat": -33.5789,
+      "lon": -71.5974
+    },
+    {
+      "id": "santodomingo",
+      "nombre": "Santo Domingo",
+      "lat": -33.6645,
+      "lon": -71.626
+    },
+    {
+      "id": "catemu",
+      "nombre": "Catemu",
+      "lat": -32.7704,
+      "lon": -70.9572
+    },
+    {
+      "id": "llaillay",
+      "nombre": "Llaillay",
+      "lat": -32.8163,
+      "lon": -70.952
+    },
+    {
+      "id": "panquehue",
+      "nombre": "Panquehue",
+      "lat": -32.7742,
+      "lon": -70.8377
+    },
+    {
+      "id": "putaendo",
+      "nombre": "Putaendo",
+      "lat": -32.6256,
+      "lon": -70.715
+    },
+    {
+      "id": "sanfelipe",
+      "nombre": "San Felipe",
+      "lat": -32.7462,
+      "lon": -70.7065
+    },
+    {
+      "id": "santamaria",
+      "nombre": "Santa María",
+      "lat": -37.825,
+      "lon": -73.1947
+    },
+    {
+      "id": "casablanca",
+      "nombre": "Casablanca",
+      "lat": -33.3072,
+      "lon": -71.409
+    },
+    {
+      "id": "concon",
+      "nombre": "Concón",
+      "lat": -32.9299,
+      "lon": -71.521
+    },
+    {
+      "id": "juanfernandez",
+      "nombre": "Juan Fernández",
+      "lat": -33.6364,
+      "lon": -78.8318
+    },
+    {
+      "id": "puchuncavi",
+      "nombre": "Puchuncaví",
+      "lat": -32.7216,
+      "lon": -71.3796
+    },
+    {
+      "id": "quilpue",
+      "nombre": "Quilpué",
+      "lat": -33.0491,
+      "lon": -71.438
+    },
+    {
+      "id": "quintero",
+      "nombre": "Quintero",
+      "lat": -32.7888,
+      "lon": -71.5244
+    },
+    {
+      "id": "valparaiso",
+      "nombre": "Valparaíso",
+      "lat": -33.0547,
+      "lon": -71.6157
+    },
+    {
+      "id": "villaalemana",
+      "nombre": "Villa Alemana",
+      "lat": -33.0478,
+      "lon": -71.3687
+    }
+  ],
+  "metropolitana": [
+    {
+      "id": "colina",
+      "nombre": "Colina",
+      "lat": -33.2102,
+      "lon": -70.6692
+    },
+    {
+      "id": "lampa",
+      "nombre": "Lampa",
+      "lat": -33.2883,
+      "lon": -70.872
+    },
+    {
+      "id": "tiltil",
+      "nombre": "Tiltil",
+      "lat": -33.0806,
+      "lon": -70.9243
+    },
+    {
+      "id": "pirque",
+      "nombre": "Pirque",
+      "lat": -33.6692,
+      "lon": -70.5684
+    },
+    {
+      "id": "puentealto",
+      "nombre": "Puente Alto",
+      "lat": -33.5869,
+      "lon": -70.5671
+    },
+    {
+      "id": "sanjosedemaipo",
+      "nombre": "San José de Maipo",
+      "lat": -33.6404,
+      "lon": -70.3314
+    },
+    {
+      "id": "buin",
+      "nombre": "Buin",
+      "lat": -33.7303,
+      "lon": -70.7464
+    },
+    {
+      "id": "caleradetango",
+      "nombre": "Calera de Tango",
+      "lat": -33.6221,
+      "lon": -70.783
+    },
+    {
+      "id": "paine",
+      "nombre": "Paine",
+      "lat": -33.8234,
+      "lon": -70.7343
+    },
+    {
+      "id": "sanbernardo",
+      "nombre": "San Bernardo",
+      "lat": -33.5695,
+      "lon": -70.7376
+    },
+    {
+      "id": "alhue",
+      "nombre": "Alhué",
+      "lat": -34.0383,
+      "lon": -71.1112
+    },
+    {
+      "id": "curacavi",
+      "nombre": "Curacaví",
+      "lat": -33.4067,
+      "lon": -71.1284
+    },
+    {
+      "id": "mariapinto",
+      "nombre": "María Pinto",
+      "lat": -33.5327,
+      "lon": -71.1342
+    },
+    {
+      "id": "melipilla",
+      "nombre": "Melipilla",
+      "lat": -33.6886,
+      "lon": -71.2139
+    },
+    {
+      "id": "sanpedro",
+      "nombre": "San Pedro",
+      "lat": -33.9497,
+      "lon": -71.433
+    },
+    {
+      "id": "cerrillos",
+      "nombre": "Cerrillos",
+      "lat": -33.4978,
+      "lon": -70.7164
+    },
+    {
+      "id": "cerronavia",
+      "nombre": "Cerro Navia",
+      "lat": -33.4232,
+      "lon": -70.7403
+    },
+    {
+      "id": "conchali",
+      "nombre": "Conchalí",
+      "lat": -33.3837,
+      "lon": -70.6749
+    },
+    {
+      "id": "elbosque",
+      "nombre": "El Bosque",
+      "lat": -33.5657,
+      "lon": -70.6728
+    },
+    {
+      "id": "estacioncentral",
+      "nombre": "Estación Central",
+      "lat": -33.466,
+      "lon": -70.7034
+    },
+    {
+      "id": "huechuraba",
+      "nombre": "Huechuraba",
+      "lat": -33.3655,
+      "lon": -70.6505
+    },
+    {
+      "id": "independencia",
+      "nombre": "Independencia",
+      "lat": -33.4137,
+      "lon": -70.6658
+    },
+    {
+      "id": "lacisterna",
+      "nombre": "La Cisterna",
+      "lat": -33.5257,
+      "lon": -70.6606
+    },
+    {
+      "id": "lagranja",
+      "nombre": "La Granja",
+      "lat": -33.5361,
+      "lon": -70.6239
+    },
+    {
+      "id": "laflorida",
+      "nombre": "La Florida",
+      "lat": -33.5363,
+      "lon": -70.5822
+    },
+    {
+      "id": "lapintana",
+      "nombre": "La Pintana",
+      "lat": -33.5659,
+      "lon": -70.6321
+    },
+    {
+      "id": "lareina",
+      "nombre": "La Reina",
+      "lat": -33.449,
+      "lon": -70.5503
+    },
+    {
+      "id": "lascondes",
+      "nombre": "Las Condes",
+      "lat": -33.4119,
+      "lon": -70.5685
+    },
+    {
+      "id": "lobarnechea",
+      "nombre": "Lo Barnechea",
+      "lat": -33.3534,
+      "lon": -70.5086
+    },
+    {
+      "id": "loespejo",
+      "nombre": "Lo Espejo",
+      "lat": -33.5171,
+      "lon": -70.6901
+    },
+    {
+      "id": "loprado",
+      "nombre": "Lo Prado",
+      "lat": -33.4257,
+      "lon": -70.7501
+    },
+    {
+      "id": "macul",
+      "nombre": "Macul",
+      "lat": -33.4895,
+      "lon": -70.5968
+    },
+    {
+      "id": "maipu",
+      "nombre": "Maipú",
+      "lat": -33.5114,
+      "lon": -70.7696
+    },
+    {
+      "id": "nunoa",
+      "nombre": "Ñuñoa",
+      "lat": -33.4506,
+      "lon": -70.5907
+    },
+    {
+      "id": "pedroaguirrecerda",
+      "nombre": "Pedro Aguirre Cerda",
+      "lat": -33.4931,
+      "lon": -70.6761
+    },
+    {
+      "id": "penalolen",
+      "nombre": "Peñalolén",
+      "lat": -33.4841,
+      "lon": -70.5573
+    },
+    {
+      "id": "providencia",
+      "nombre": "Providencia",
+      "lat": -33.434,
+      "lon": -70.6105
+    },
+    {
+      "id": "pudahuel",
+      "nombre": "Pudahuel",
+      "lat": -33.4458,
+      "lon": -70.7653
+    },
+    {
+      "id": "quilicura",
+      "nombre": "Quilicura",
+      "lat": -33.3612,
+      "lon": -70.7319
+    },
+    {
+      "id": "quintanormal",
+      "nombre": "Quinta Normal",
+      "lat": -33.4246,
+      "lon": -70.7019
+    },
+    {
+      "id": "recoleta",
+      "nombre": "Recoleta",
+      "lat": -33.3974,
+      "lon": -70.6431
+    },
+    {
+      "id": "renca",
+      "nombre": "Renca",
+      "lat": -33.4034,
+      "lon": -70.7213
+    },
+    {
+      "id": "sanmiguel",
+      "nombre": "San Miguel",
+      "lat": -33.5007,
+      "lon": -70.6514
+    },
+    {
+      "id": "sanjoaquin",
+      "nombre": "San Joaquín",
+      "lat": -33.4975,
+      "lon": -70.6287
+    },
+    {
+      "id": "sanramon",
+      "nombre": "San Ramón",
+      "lat": -33.4274,
+      "lon": -70.4843
+    },
+    {
+      "id": "santiago",
+      "nombre": "Santiago",
+      "lat": -33.4624,
+      "lon": -70.6491
+    },
+    {
+      "id": "vitacura",
+      "nombre": "Vitacura",
+      "lat": -33.3867,
+      "lon": -70.5688
+    },
+    {
+      "id": "elmonte",
+      "nombre": "El Monte",
+      "lat": -33.6936,
+      "lon": -71.0118
+    },
+    {
+      "id": "islademaipo",
+      "nombre": "Isla de Maipo",
+      "lat": -33.7509,
+      "lon": -70.8983
+    },
+    {
+      "id": "padrehurtado",
+      "nombre": "Padre Hurtado",
+      "lat": -33.5719,
+      "lon": -70.8068
+    },
+    {
+      "id": "penaflor",
+      "nombre": "Peñaflor",
+      "lat": -33.5985,
+      "lon": -70.8734
+    },
+    {
+      "id": "talagante",
+      "nombre": "Talagante",
+      "lat": -33.6844,
+      "lon": -70.9248
+    }
+  ],
+  "ohiggins": [
+    {
+      "id": "codegua",
+      "nombre": "Codegua",
+      "lat": -34.0561,
+      "lon": -70.6633
+    },
+    {
+      "id": "coinco",
+      "nombre": "Coínco",
+      "lat": -34.2682,
+      "lon": -70.955
+    },
+    {
+      "id": "coltauco",
+      "nombre": "Coltauco",
+      "lat": -34.3107,
+      "lon": -71.0988
+    },
+    {
+      "id": "donihue",
+      "nombre": "Doñihue",
+      "lat": -34.226,
+      "lon": -70.9633
+    },
+    {
+      "id": "graneros",
+      "nombre": "Graneros",
+      "lat": -34.0373,
+      "lon": -70.7034
+    },
+    {
+      "id": "lascabras",
+      "nombre": "Las Cabras",
+      "lat": -34.2675,
+      "lon": -71.3166
+    },
+    {
+      "id": "machali",
+      "nombre": "Machalí",
+      "lat": -34.1817,
+      "lon": -70.6521
+    },
+    {
+      "id": "malloa",
+      "nombre": "Malloa",
+      "lat": -34.4487,
+      "lon": -70.9271
+    },
+    {
+      "id": "mostazal",
+      "nombre": "Mostazal",
+      "lat": -33.9779,
+      "lon": -70.6874
+    },
+    {
+      "id": "olivar",
+      "nombre": "Olivar",
+      "lat": -34.2079,
+      "lon": -70.7885
+    },
+    {
+      "id": "peumo",
+      "nombre": "Peumo",
+      "lat": -36.5738,
+      "lon": -72.3381
+    },
+    {
+      "id": "pichidegua",
+      "nombre": "Pichidegua",
+      "lat": -34.3693,
+      "lon": -71.302
+    },
+    {
+      "id": "quintadetilcoco",
+      "nombre": "Quinta de Tilcoco",
+      "lat": -34.3547,
+      "lon": -70.9791
+    },
+    {
+      "id": "rancagua",
+      "nombre": "Rancagua",
+      "lat": -34.1732,
+      "lon": -70.731
+    },
+    {
+      "id": "rengo",
+      "nombre": "Rengo",
+      "lat": -34.4108,
+      "lon": -70.8639
+    },
+    {
+      "id": "requinoa",
+      "nombre": "Requínoa",
+      "lat": -34.2762,
+      "lon": -70.808
+    },
+    {
+      "id": "sanvicentedetaguatagua",
+      "nombre": "San Vicente de Tagua Tagua",
+      "lat": -34.442,
+      "lon": -71.0778
+    },
+    {
+      "id": "laestrella",
+      "nombre": "La Estrella",
+      "lat": -34.1971,
+      "lon": -71.6678
+    },
+    {
+      "id": "litueche",
+      "nombre": "Litueche",
+      "lat": -34.1011,
+      "lon": -71.7094
+    },
+    {
+      "id": "marchihue",
+      "nombre": "Marchihue",
+      "lat": -34.3923,
+      "lon": -71.626
+    },
+    {
+      "id": "navidad",
+      "nombre": "Navidad",
+      "lat": -33.9829,
+      "lon": -71.822
+    },
+    {
+      "id": "pichilemu",
+      "nombre": "Pichilemu",
+      "lat": -34.3922,
+      "lon": -71.9999
+    },
+    {
+      "id": "chepica",
+      "nombre": "Chépica",
+      "lat": -30.9969,
+      "lon": -70.8342
+    },
+    {
+      "id": "chimbarongo",
+      "nombre": "Chimbarongo",
+      "lat": -34.7088,
+      "lon": -71.0398
+    },
+    {
+      "id": "lolol",
+      "nombre": "Lolol",
+      "lat": -34.7361,
+      "lon": -71.5889
+    },
+    {
+      "id": "nancagua",
+      "nombre": "Nancagua",
+      "lat": -34.6518,
+      "lon": -71.1991
+    },
+    {
+      "id": "palmilla",
+      "nombre": "Palmilla",
+      "lat": -34.5441,
+      "lon": -71.3676
+    },
+    {
+      "id": "peralillo",
+      "nombre": "Peralillo",
+      "lat": -34.4516,
+      "lon": -71.5318
+    },
+    {
+      "id": "placilla",
+      "nombre": "Placilla",
+      "lat": -26.1221,
+      "lon": -70.2201
+    },
+    {
+      "id": "pumanque",
+      "nombre": "Pumanque",
+      "lat": -34.6226,
+      "lon": -71.662
+    },
+    {
+      "id": "sanfernando",
+      "nombre": "San Fernando",
+      "lat": -34.5829,
+      "lon": -70.9926
+    },
+    {
+      "id": "santacruz",
+      "nombre": "Santa Cruz",
+      "lat": -34.6494,
+      "lon": -71.375
+    }
+  ],
+  "maule": [
+    {
+      "id": "cauquenes",
+      "nombre": "Cauquenes",
+      "lat": -35.9802,
+      "lon": -72.327
+    },
+    {
+      "id": "chanco",
+      "nombre": "Chanco",
+      "lat": -35.7154,
+      "lon": -72.5123
+    },
+    {
+      "id": "pelluhue",
+      "nombre": "Pelluhue",
+      "lat": -35.856,
+      "lon": -72.6031
+    },
+    {
+      "id": "curico",
+      "nombre": "Curicó",
+      "lat": -34.9878,
+      "lon": -71.2281
+    },
+    {
+      "id": "hualane",
+      "nombre": "Hualañé",
+      "lat": -34.9665,
+      "lon": -71.8113
+    },
+    {
+      "id": "licanten",
+      "nombre": "Licantén",
+      "lat": -34.9947,
+      "lon": -72.0278
+    },
+    {
+      "id": "molina",
+      "nombre": "Molina",
+      "lat": -35.1037,
+      "lon": -71.2808
+    },
+    {
+      "id": "rauco",
+      "nombre": "Rauco",
+      "lat": -34.9299,
+      "lon": -71.3878
+    },
+    {
+      "id": "romeral",
+      "nombre": "Romeral",
+      "lat": -34.9631,
+      "lon": -71.0961
+    },
+    {
+      "id": "sagradafamilia",
+      "nombre": "Sagrada Familia",
+      "lat": -35.04,
+      "lon": -71.4083
+    },
+    {
+      "id": "teno",
+      "nombre": "Teno",
+      "lat": -34.8715,
+      "lon": -71.1527
+    },
+    {
+      "id": "vichuquen",
+      "nombre": "Vichuquén",
+      "lat": -34.9012,
+      "lon": -71.9943
+    },
+    {
+      "id": "colbun",
+      "nombre": "Colbún",
+      "lat": -35.7263,
+      "lon": -71.4156
+    },
+    {
+      "id": "linares",
+      "nombre": "Linares",
+      "lat": -35.8499,
+      "lon": -71.5848
+    },
+    {
+      "id": "longavi",
+      "nombre": "Longaví",
+      "lat": -35.9783,
+      "lon": -71.6977
+    },
+    {
+      "id": "parral",
+      "nombre": "Parral",
+      "lat": -36.135,
+      "lon": -71.8278
+    },
+    {
+      "id": "retiro",
+      "nombre": "Retiro",
+      "lat": -36.0426,
+      "lon": -71.7794
+    },
+    {
+      "id": "sanjavier",
+      "nombre": "San Javier",
+      "lat": -35.6158,
+      "lon": -71.7312
+    },
+    {
+      "id": "villaalegre",
+      "nombre": "Villa Alegre",
+      "lat": -37.37,
+      "lon": -73.5054
+    },
+    {
+      "id": "yerbasbuenas",
+      "nombre": "Yerbas Buenas",
+      "lat": -29.5223,
+      "lon": -71.2211
+    },
+    {
+      "id": "constitucion",
+      "nombre": "Constitución",
+      "lat": -35.3427,
+      "lon": -72.3978
+    },
+    {
+      "id": "curepto",
+      "nombre": "Curepto",
+      "lat": -35.1066,
+      "lon": -71.9943
+    },
+    {
+      "id": "empedrado",
+      "nombre": "Empedrado",
+      "lat": -35.6342,
+      "lon": -72.2742
+    },
+    {
+      "id": "maule",
+      "nombre": "Maule",
+      "lat": -35.4794,
+      "lon": -71.6842
+    },
+    {
+      "id": "pelarco",
+      "nombre": "Pelarco",
+      "lat": -35.3887,
+      "lon": -71.4266
+    },
+    {
+      "id": "pencahue",
+      "nombre": "Pencahue",
+      "lat": -35.3537,
+      "lon": -71.8315
+    },
+    {
+      "id": "rioclaro",
+      "nombre": "Río Claro",
+      "lat": -35.2458,
+      "lon": -71.2885
+    },
+    {
+      "id": "sanclemente",
+      "nombre": "San Clemente",
+      "lat": -35.5462,
+      "lon": -71.4905
+    },
+    {
+      "id": "sanrafael",
+      "nombre": "San Rafael",
+      "lat": -35.3038,
+      "lon": -71.4684
+    },
+    {
+      "id": "talca",
+      "nombre": "Talca",
+      "lat": -35.4299,
+      "lon": -71.6555
+    }
+  ],
+  "nuble": [
+    {
+      "id": "arauco",
+      "nombre": "Arauco",
+      "lat": -37.2599,
+      "lon": -73.3093
+    },
+    {
+      "id": "canete",
+      "nombre": "Cañete",
+      "lat": -37.83,
+      "lon": -73.3671
+    },
+    {
+      "id": "contulmo",
+      "nombre": "Contulmo",
+      "lat": -37.9982,
+      "lon": -73.2629
+    },
+    {
+      "id": "curanilahue",
+      "nombre": "Curanilahue",
+      "lat": -37.487,
+      "lon": -73.3175
+    },
+    {
+      "id": "lebu",
+      "nombre": "Lebu",
+      "lat": -37.6197,
+      "lon": -73.6359
+    },
+    {
+      "id": "losalamos",
+      "nombre": "Los Álamos",
+      "lat": -37.6267,
+      "lon": -73.497
+    },
+    {
+      "id": "tirua",
+      "nombre": "Tirúa",
+      "lat": -38.3762,
+      "lon": -73.4789
+    },
+    {
+      "id": "altobiobio",
+      "nombre": "Alto Biobío",
+      "lat": -37.9726,
+      "lon": -71.3473
+    },
+    {
+      "id": "antuco",
+      "nombre": "Antuco",
+      "lat": -37.3465,
+      "lon": -71.6614
+    },
+    {
+      "id": "cabrero",
+      "nombre": "Cabrero",
+      "lat": -37.0496,
+      "lon": -72.4002
+    },
+    {
+      "id": "laja",
+      "nombre": "Laja",
+      "lat": -37.282,
+      "lon": -72.7167
+    },
+    {
+      "id": "losangeles",
+      "nombre": "Los Ángeles",
+      "lat": -37.4648,
+      "lon": -72.3541
+    },
+    {
+      "id": "mulchen",
+      "nombre": "Mulchén",
+      "lat": -37.725,
+      "lon": -72.2456
+    },
+    {
+      "id": "nacimiento",
+      "nombre": "Nacimiento",
+      "lat": -37.5012,
+      "lon": -72.6866
+    },
+    {
+      "id": "negrete",
+      "nombre": "Negrete",
+      "lat": -37.5881,
+      "lon": -72.5392
+    },
+    {
+      "id": "quilaco",
+      "nombre": "Quilaco",
+      "lat": -37.6775,
+      "lon": -71.9681
+    },
+    {
+      "id": "quilleco",
+      "nombre": "Quilleco",
+      "lat": -37.4537,
+      "lon": -71.9744
+    },
+    {
+      "id": "sanrosendo",
+      "nombre": "San Rosendo",
+      "lat": -37.2561,
+      "lon": -72.7204
+    },
+    {
+      "id": "santabarbara",
+      "nombre": "Santa Bárbara",
+      "lat": -37.6657,
+      "lon": -71.992
+    },
+    {
+      "id": "tucapel",
+      "nombre": "Tucapel",
+      "lat": -37.2905,
+      "lon": -71.9328
+    },
+    {
+      "id": "yumbel",
+      "nombre": "Yumbel",
+      "lat": -37.0822,
+      "lon": -72.5761
+    },
+    {
+      "id": "chiguayante",
+      "nombre": "Chiguayante",
+      "lat": -36.9529,
+      "lon": -72.9996
+    },
+    {
+      "id": "concepcion",
+      "nombre": "Concepción",
+      "lat": -36.8201,
+      "lon": -73.0595
+    },
+    {
+      "id": "coronel",
+      "nombre": "Coronel",
+      "lat": -37.0011,
+      "lon": -73.1532
+    },
+    {
+      "id": "florida",
+      "nombre": "Florida",
+      "lat": -36.8354,
+      "lon": -72.682
+    },
+    {
+      "id": "hualpen",
+      "nombre": "Hualpén",
+      "lat": -36.7935,
+      "lon": -73.0973
+    },
+    {
+      "id": "hualqui",
+      "nombre": "Hualqui",
+      "lat": -36.9734,
+      "lon": -72.9295
+    },
+    {
+      "id": "lota",
+      "nombre": "Lota",
+      "lat": -37.1014,
+      "lon": -73.153
+    },
+    {
+      "id": "penco",
+      "nombre": "Penco",
+      "lat": -36.7575,
+      "lon": -72.9568
+    },
+    {
+      "id": "sanpedrodelapaz",
+      "nombre": "San Pedro de La Paz",
+      "lat": -36.8527,
+      "lon": -73.1306
+    },
+    {
+      "id": "santajuana",
+      "nombre": "Santa Juana",
+      "lat": -37.1987,
+      "lon": -72.9369
+    },
+    {
+      "id": "talcahuano",
+      "nombre": "Talcahuano",
+      "lat": -36.7433,
+      "lon": -73.104
+    },
+    {
+      "id": "tome",
+      "nombre": "Tomé",
+      "lat": -36.6081,
+      "lon": -72.9349
+    },
+    {
+      "id": "bulnes",
+      "nombre": "Bulnes",
+      "lat": -36.736,
+      "lon": -72.2852
+    },
+    {
+      "id": "chillan",
+      "nombre": "Chillán",
+      "lat": -36.613,
+      "lon": -72.0961
+    },
+    {
+      "id": "chillanviejo",
+      "nombre": "Chillán Viejo",
+      "lat": -36.6377,
+      "lon": -72.1484
+    },
+    {
+      "id": "cobquecura",
+      "nombre": "Cobquecura",
+      "lat": -36.1285,
+      "lon": -72.7823
+    },
+    {
+      "id": "coelemu",
+      "nombre": "Coelemu",
+      "lat": -36.5111,
+      "lon": -72.7007
+    },
+    {
+      "id": "coihueco",
+      "nombre": "Coihueco",
+      "lat": -36.6849,
+      "lon": -71.7899
+    },
+    {
+      "id": "elcarmen",
+      "nombre": "El Carmen",
+      "lat": -37.6982,
+      "lon": -71.7692
+    },
+    {
+      "id": "ninhue",
+      "nombre": "Ninhue",
+      "lat": -36.3804,
+      "lon": -72.3935
+    },
+    {
+      "id": "niquen",
+      "nombre": "Ñiquen",
+      "lat": -36.3218,
+      "lon": -71.8591
+    },
+    {
+      "id": "pemuco",
+      "nombre": "Pemuco",
+      "lat": -36.9966,
+      "lon": -72.0466
+    },
+    {
+      "id": "pinto",
+      "nombre": "Pinto",
+      "lat": -36.8263,
+      "lon": -71.6815
+    },
+    {
+      "id": "portezuelo",
+      "nombre": "Portezuelo",
+      "lat": -36.5374,
+      "lon": -72.4523
+    },
+    {
+      "id": "quillon",
+      "nombre": "Quillón",
+      "lat": -36.7474,
+      "lon": -72.4847
+    },
+    {
+      "id": "quirihue",
+      "nombre": "Quirihue",
+      "lat": -36.2941,
+      "lon": -72.5324
+    },
+    {
+      "id": "ranquil",
+      "nombre": "Ránquil",
+      "lat": -36.6311,
+      "lon": -72.5281
+    },
+    {
+      "id": "sancarlos",
+      "nombre": "San Carlos",
+      "lat": -36.4167,
+      "lon": -71.951
+    },
+    {
+      "id": "sanfabian",
+      "nombre": "San Fabián",
+      "lat": -36.5657,
+      "lon": -71.482
+    },
+    {
+      "id": "sanignacio",
+      "nombre": "San Ignacio",
+      "lat": -36.8068,
+      "lon": -72.0201
+    },
+    {
+      "id": "sannicolas",
+      "nombre": "San Nicolás",
+      "lat": -36.5338,
+      "lon": -72.2132
+    },
+    {
+      "id": "treguaco",
+      "nombre": "Treguaco",
+      "lat": -36.4038,
+      "lon": -72.7551
+    },
+    {
+      "id": "yungay",
+      "nombre": "Yungay",
+      "lat": -37.1104,
+      "lon": -71.9952
+    }
+  ],
+  "biobio": [
+    {
+      "id": "carahue",
+      "nombre": "Carahue",
+      "lat": -38.739,
+      "lon": -73.1746
+    },
+    {
+      "id": "cholchol",
+      "nombre": "Cholchol",
+      "lat": -38.6067,
+      "lon": -72.8429
+    },
+    {
+      "id": "cunco",
+      "nombre": "Cunco",
+      "lat": -38.9264,
+      "lon": -72.0387
+    },
+    {
+      "id": "curarrehue",
+      "nombre": "Curarrehue",
+      "lat": -39.3513,
+      "lon": -71.5718
+    },
+    {
+      "id": "freire",
+      "nombre": "Freire",
+      "lat": -38.9286,
+      "lon": -72.6102
+    },
+    {
+      "id": "galvarino",
+      "nombre": "Galvarino",
+      "lat": -38.4596,
+      "lon": -72.8027
+    },
+    {
+      "id": "gorbea",
+      "nombre": "Gorbea",
+      "lat": -39.2095,
+      "lon": -72.6738
+    },
+    {
+      "id": "lautaro",
+      "nombre": "Lautaro",
+      "lat": -38.5323,
+      "lon": -72.4223
+    },
+    {
+      "id": "loncoche",
+      "nombre": "Loncoche",
+      "lat": -39.3592,
+      "lon": -72.6247
+    },
+    {
+      "id": "melipeuco",
+      "nombre": "Melipeuco",
+      "lat": -38.8357,
+      "lon": -71.7198
+    },
+    {
+      "id": "nuevaimperial",
+      "nombre": "Nueva Imperial",
+      "lat": -38.7579,
+      "lon": -72.9453
+    },
+    {
+      "id": "padrelascasas",
+      "nombre": "Padre Las Casas",
+      "lat": -38.7728,
+      "lon": -72.586
+    },
+    {
+      "id": "perquenco",
+      "nombre": "Perquenco",
+      "lat": -38.4152,
+      "lon": -72.3882
+    },
+    {
+      "id": "pitrufquen",
+      "nombre": "Pitrufquén",
+      "lat": -38.9899,
+      "lon": -72.636
+    },
+    {
+      "id": "pucon",
+      "nombre": "Pucón",
+      "lat": -39.2936,
+      "lon": -71.9646
+    },
+    {
+      "id": "saavedra",
+      "nombre": "Saavedra",
+      "lat": -38.7908,
+      "lon": -73.3927
+    },
+    {
+      "id": "temuco",
+      "nombre": "Temuco",
+      "lat": -38.7357,
+      "lon": -72.6193
+    },
+    {
+      "id": "teodoroschmidt",
+      "nombre": "Teodoro Schmidt",
+      "lat": -38.9674,
+      "lon": -73.0382
+    },
+    {
+      "id": "tolten",
+      "nombre": "Toltén",
+      "lat": -39.194,
+      "lon": -73.1726
+    },
+    {
+      "id": "villarrica",
+      "nombre": "Villarrica",
+      "lat": -39.2969,
+      "lon": -72.2297
+    },
+    {
+      "id": "angol",
+      "nombre": "Angol",
+      "lat": -37.7948,
+      "lon": -72.7254
+    },
+    {
+      "id": "collipulli",
+      "nombre": "Collipulli",
+      "lat": -37.9486,
+      "lon": -72.4365
+    },
+    {
+      "id": "curacautin",
+      "nombre": "Curacautín",
+      "lat": -38.4344,
+      "lon": -71.8793
+    },
+    {
+      "id": "ercilla",
+      "nombre": "Ercilla",
+      "lat": -38.0806,
+      "lon": -72.3769
+    },
+    {
+      "id": "lonquimay",
+      "nombre": "Lonquimay",
+      "lat": -38.4431,
+      "lon": -71.3439
+    },
+    {
+      "id": "lossauces",
+      "nombre": "Los Sauces",
+      "lat": -37.9709,
+      "lon": -72.8396
+    },
+    {
+      "id": "lumaco",
+      "nombre": "Lumaco",
+      "lat": -38.18,
+      "lon": -72.9197
+    },
+    {
+      "id": "puren",
+      "nombre": "Purén",
+      "lat": -38.0744,
+      "lon": -73.0241
+    },
+    {
+      "id": "renaico",
+      "nombre": "Renaico",
+      "lat": -37.6826,
+      "lon": -72.5826
+    },
+    {
+      "id": "traiguen",
+      "nombre": "Traiguén",
+      "lat": -38.2451,
+      "lon": -72.7345
+    },
+    {
+      "id": "victoria",
+      "nombre": "Victoria",
+      "lat": -38.2383,
+      "lon": -72.3315
+    }
+  ],
+  "araucania": [
+    {
+      "id": "corral",
+      "nombre": "Corral",
+      "lat": -39.8781,
+      "lon": -73.432
+    },
+    {
+      "id": "lanco",
+      "nombre": "Lanco",
+      "lat": -39.4579,
+      "lon": -72.7641
+    },
+    {
+      "id": "loslagos",
+      "nombre": "Los Lagos",
+      "lat": -39.8613,
+      "lon": -72.8137
+    },
+    {
+      "id": "mafil",
+      "nombre": "Máfil",
+      "lat": -39.6491,
+      "lon": -72.9386
+    },
+    {
+      "id": "mariquina",
+      "nombre": "Mariquina",
+      "lat": -39.5275,
+      "lon": -73.0236
+    },
+    {
+      "id": "paillaco",
+      "nombre": "Paillaco",
+      "lat": -40.0799,
+      "lon": -72.8686
+    },
+    {
+      "id": "panguipulli",
+      "nombre": "Panguipulli",
+      "lat": -39.6443,
+      "lon": -72.3276
+    },
+    {
+      "id": "valdivia",
+      "nombre": "Valdivia",
+      "lat": -39.8781,
+      "lon": -73.432
+    },
+    {
+      "id": "futrono",
+      "nombre": "Futrono",
+      "lat": -40.1295,
+      "lon": -72.3806
+    },
+    {
+      "id": "launion",
+      "nombre": "La Unión",
+      "lat": -40.2825,
+      "lon": -73.0789
+    },
+    {
+      "id": "lagoranco",
+      "nombre": "Lago Ranco",
+      "lat": -40.3269,
+      "lon": -72.4422
+    },
+    {
+      "id": "riobueno",
+      "nombre": "Río Bueno",
+      "lat": -40.3531,
+      "lon": -72.9455
+    }
+  ],
+  "losrios": [
+    {
+      "id": "ancud",
+      "nombre": "Ancud",
+      "lat": -41.8791,
+      "lon": -73.8166
+    },
+    {
+      "id": "castro",
+      "nombre": "Castro",
+      "lat": -42.4663,
+      "lon": -73.7704
+    },
+    {
+      "id": "chonchi",
+      "nombre": "Chonchi",
+      "lat": -42.6525,
+      "lon": -73.7579
+    },
+    {
+      "id": "curacodevelez",
+      "nombre": "Curaco de Vélez",
+      "lat": -42.4393,
+      "lon": -73.6004
+    },
+    {
+      "id": "dalcahue",
+      "nombre": "Dalcahue",
+      "lat": -42.3705,
+      "lon": -73.6418
+    },
+    {
+      "id": "puqueldon",
+      "nombre": "Puqueldón",
+      "lat": -42.6028,
+      "lon": -73.6728
+    },
+    {
+      "id": "queilen",
+      "nombre": "Queilén",
+      "lat": -42.8812,
+      "lon": -73.4826
+    },
+    {
+      "id": "quemchi",
+      "nombre": "Quemchi",
+      "lat": -42.1395,
+      "lon": -73.4624
+    },
+    {
+      "id": "quellon",
+      "nombre": "Quellón",
+      "lat": -43.1138,
+      "lon": -73.6363
+    },
+    {
+      "id": "quinchao",
+      "nombre": "Quinchao",
+      "lat": -42.4967,
+      "lon": -73.4409
+    },
+    {
+      "id": "calbuco",
+      "nombre": "Calbuco",
+      "lat": -41.7635,
+      "lon": -73.1535
+    },
+    {
+      "id": "cochamo",
+      "nombre": "Cochamó",
+      "lat": -41.5152,
+      "lon": -72.3273
+    },
+    {
+      "id": "fresia",
+      "nombre": "Fresia",
+      "lat": -41.1672,
+      "lon": -73.3962
+    },
+    {
+      "id": "frutillar",
+      "nombre": "Frutillar",
+      "lat": -41.1211,
+      "lon": -73.0508
+    },
+    {
+      "id": "llanquihue",
+      "nombre": "Llanquihue",
+      "lat": -41.2518,
+      "lon": -73.0245
+    },
+    {
+      "id": "losmuermos",
+      "nombre": "Los Muermos",
+      "lat": -41.4324,
+      "lon": -73.5273
+    },
+    {
+      "id": "maullin",
+      "nombre": "Maullín",
+      "lat": -41.6363,
+      "lon": -73.5836
+    },
+    {
+      "id": "puertomontt",
+      "nombre": "Puerto Montt",
+      "lat": -41.4544,
+      "lon": -72.9388
+    },
+    {
+      "id": "puertovaras",
+      "nombre": "Puerto Varas",
+      "lat": -41.3214,
+      "lon": -72.9793
+    },
+    {
+      "id": "osorno",
+      "nombre": "Osorno",
+      "lat": -40.5788,
+      "lon": -73.1419
+    },
+    {
+      "id": "purranque",
+      "nombre": "Purranque",
+      "lat": -40.9257,
+      "lon": -73.1373
+    },
+    {
+      "id": "puyehue",
+      "nombre": "Puyehue",
+      "lat": -40.6808,
+      "lon": -72.5819
+    },
+    {
+      "id": "rionegro",
+      "nombre": "Río Negro",
+      "lat": -40.8043,
+      "lon": -73.1999
+    },
+    {
+      "id": "sanjuandelacosta",
+      "nombre": "San Juan de la Costa",
+      "lat": -40.5564,
+      "lon": -73.5645
+    },
+    {
+      "id": "sanpablo",
+      "nombre": "San Pablo",
+      "lat": -36.9638,
+      "lon": -72.8093
+    },
+    {
+      "id": "chaiten",
+      "nombre": "Chaitén",
+      "lat": -42.9204,
+      "lon": -72.7027
+    },
+    {
+      "id": "futaleufu",
+      "nombre": "Futaleufú",
+      "lat": -43.1845,
+      "lon": -71.8685
+    },
+    {
+      "id": "hualaihue",
+      "nombre": "Hualaihué",
+      "lat": -41.9565,
+      "lon": -72.5866
+    },
+    {
+      "id": "palena",
+      "nombre": "Palena",
+      "lat": -43.6257,
+      "lon": -71.801
+    }
+  ],
+  "loslagos": [
+    {
+      "id": "cisnes",
+      "nombre": "Cisnes",
+      "lat": -44.7093,
+      "lon": -72.6796
+    },
+    {
+      "id": "guaitecas",
+      "nombre": "Guaitecas",
+      "lat": -43.8915,
+      "lon": -73.7787
+    },
+    {
+      "id": "cochrane",
+      "nombre": "Cochrane",
+      "lat": -47.3096,
+      "lon": -72.618
+    },
+    {
+      "id": "ohiggins",
+      "nombre": "O'higgins",
+      "lat": -48.454,
+      "lon": -72.574
+    },
+    {
+      "id": "tortel",
+      "nombre": "Tortel",
+      "lat": -47.7983,
+      "lon": -73.5319
+    },
+    {
+      "id": "coihaique",
+      "nombre": "Coihaique",
+      "lat": -45.5799,
+      "lon": -72.0531
+    },
+    {
+      "id": "lagoverde",
+      "nombre": "Lago Verde",
+      "lat": -44.2417,
+      "lon": -71.8512
+    },
+    {
+      "id": "chilechico",
+      "nombre": "Chile Chico",
+      "lat": -46.5557,
+      "lon": -71.722
+    },
+    {
+      "id": "rioibanez",
+      "nombre": "Río Ibáñez",
+      "lat": -46.2271,
+      "lon": -72.8027
+    }
+  ],
+  "aysen": [
+    {
+      "id": "cabodehornos",
+      "nombre": "Cabo de Hornos",
+      "lat": -54.9388,
+      "lon": -68.1517
+    },
+    {
+      "id": "lagunablanca",
+      "nombre": "Laguna Blanca",
+      "lat": -52.4272,
+      "lon": -71.4149
+    },
+    {
+      "id": "puntaarenas",
+      "nombre": "Punta Arenas",
+      "lat": -53.1522,
+      "lon": -70.9194
+    },
+    {
+      "id": "rioverde",
+      "nombre": "Río Verde",
+      "lat": -52.7272,
+      "lon": -71.4337
+    },
+    {
+      "id": "sangregorio",
+      "nombre": "San Gregorio",
+      "lat": -52.3723,
+      "lon": -69.6564
+    },
+    {
+      "id": "porvenir",
+      "nombre": "Porvenir",
+      "lat": -53.3033,
+      "lon": -70.2913
+    },
+    {
+      "id": "primavera",
+      "nombre": "Primavera",
+      "lat": -52.7667,
+      "lon": -69.2987
+    },
+    {
+      "id": "timaukel",
+      "nombre": "Timaukel",
+      "lat": -54.0564,
+      "lon": -68.8272
+    },
+    {
+      "id": "natales",
+      "nombre": "Natales",
+      "lat": -51.7263,
+      "lon": -72.5062
+    },
+    {
+      "id": "torresdelpaine",
+      "nombre": "Torres del Paine",
+      "lat": -51.0342,
+      "lon": -73.016
+    }
+  ],
+  "magallanes": []
+}

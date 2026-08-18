@@ -1,16 +1,30 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import DetailView from '../views/DetailView.vue'
-
-const routes = [
-  { path: '/', name: 'Home', component: HomeView },
-  { path: '/lugar/:id', name: 'Detail', component: DetailView },
-  { path: '/:pathMatch(.*)*', redirect: '/' }
-]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes
+  history: createWebHashHistory(),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/:region',
+      name: 'region',
+      component: () => import('../views/RegionView.vue')
+    },
+    {
+      path: '/:region/:city',
+      name: 'detail',
+      component: () => import('../views/DetailView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('../views/NotFoundView.vue')
+    }
+  ]
 })
 
 export default router

@@ -1,3 +1,406 @@
 @use 'base/variables' as *;
 @use 'layout/layout';
 @use 'components/place-card';
+
+// ─── Panel de vidrio genérico ─────────────────────────────────────────────────
+@mixin glass-panel($blur: 18px) {
+  background: rgba(255,255,255,0.09);
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: $radius-card;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.30);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+    pointer-events: none;
+  }
+}
+
+.glass-panel {
+  @include glass-panel;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: $font-primary;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 0.9rem;
+}
+
+// ─── Detail page layout ────────────────────────────────────────────────────────
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// ─── Hero compacto ─────────────────────────────────────────────────────────────
+.d-hero {
+  @include glass-panel(22px);
+  padding: 1.25rem 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto 1.1fr;
+  gap: 0;
+  align-items: stretch;
+  margin-bottom: 0;
+
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    .d-hero__divider { display: none; }
+  }
+}
+
+.d-hero__divider {
+  width: 1px;
+  background: rgba(255,255,255,0.12);
+  margin: 0 1.5rem;
+  align-self: stretch;
+}
+
+// ── Bloque principal (izquierda) ─────────────────────────────────────────────
+.d-hero__main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.d-hero__city-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.d-hero__city {
+  font-family: $font-primary;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: $shadow-text;
+}
+
+.unit-toggle {
+  display: flex;
+  border-radius: $radius-pill;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(0,0,0,0.18);
+
+  button {
+    padding: 0.25rem 0.75rem;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-family: $font-secondary;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: $transition-fast;
+
+    &.active {
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+  }
+}
+
+.d-hero__center {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.d-hero__icon {
+  width: 90px;
+  height: 90px;
+  filter: $shadow-icon;
+  flex-shrink: 0;
+}
+
+.d-hero__temp {
+  font-family: $font-primary;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  text-shadow: $shadow-text;
+  letter-spacing: -3px;
+}
+
+.d-hero__condition {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.72);
+  margin-top: 0.25rem;
+}
+
+.d-hero__feels {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 0.15rem;
+}
+
+// ── Métricas (derecha) ───────────────────────────────────────────────────────
+.d-hero__metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  align-content: center;
+}
+
+.d-metric {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: $radius-sm;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.08);
+
+  &__ic {
+    font-size: 1.1rem;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+    min-width: 1.4rem;
+    text-align: center;
+  }
+
+  &__lb {
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  &__vl {
+    font-family: $font-primary;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    line-height: 1;
+  }
+}
+
+// ─── Slider Horario 12h ───────────────────────────────────────────────────────
+.hourly-section {
+  @include glass-panel(16px);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0;
+}
+
+.hourly-strip {
+  display: flex;
+  gap: 0.55rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: 0.15rem;
+
+  &::-webkit-scrollbar { display: none; }
+}
+
+.hourly-item {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 14px;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.1);
+  min-width: 56px;
+  transition: $transition-fast;
+  cursor: default;
+
+  &:hover {
+    background: rgba(255,255,255,0.13);
+    border-color: rgba(255,255,255,0.22);
+    transform: translateY(-1px);
+  }
+
+  &__time {
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.3px;
+  }
+
+  &__icon {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 1px 5px rgba(0,0,0,0.45));
+  }
+
+  &__temp {
+    font-family: $font-primary;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+}
+
+// ─── Dos columnas (alertas + forecast) ───────────────────────────────────────
+.d-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 1rem;
+
+  .glass-panel { margin-bottom: 0; }
+
+  @media (max-width: 620px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ─── Forecast compacto (lista con barras) ────────────────────────────────────
+.forecast-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  &__day {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    width: 2rem;
+    flex-shrink: 0;
+  }
+
+  &__icon {
+    width: 24px;
+    height: 24px;
+    filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4));
+    flex-shrink: 0;
+  }
+
+  &__bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex: 1;
+  }
+
+  &__min, &__max {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.55);
+    width: 3rem;
+    flex-shrink: 0;
+  }
+
+  &__max {
+    color: rgba(255,255,255,0.85);
+    text-align: right;
+  }
+
+  &__bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  &__fill {
+    height: 100%;
+    background: linear-gradient(90deg, rgba(255,200,80,0.7), rgba(255,100,50,0.9));
+    border-radius: 4px;
+    min-width: 8px;
+  }
+}
+
+// ─── Alertas ─────────────────────────────────────────────────────────────────
+.alert-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: $radius-sm;
+  background: rgba(0,0,0,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 0.5rem;
+
+  &:last-child { margin-bottom: 0; }
+
+  &--danger  { border-color: rgba(255,80,80,0.35);  background: rgba(200,0,0,0.12); }
+  &--warning { border-color: rgba(255,180,0,0.35);  background: rgba(200,140,0,0.12); }
+  &--info    { border-color: rgba(80,160,255,0.35); background: rgba(0,80,200,0.12); }
+  &--success { border-color: rgba(80,255,140,0.35); background: rgba(0,160,80,0.12); }
+
+  &__icon  { font-size: 1.1rem; margin-top: 0.05rem; }
+  &__title { font-weight: 600; font-size: 0.82rem; margin-bottom: 0.15rem; color: #fff; }
+  &__msg   { font-size: 0.74rem; color: rgba(255,255,255,0.68); line-height: 1.4; }
+}
+
+// ─── Stats inline ─────────────────────────────────────────────────────────────
+.stats-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.stat-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: $radius-pill;
+  background: rgba(0,0,0,0.18);
+  border: 1px solid rgba(255,255,255,0.1);
+
+  &__label { font-size: 0.58rem; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.15rem; }
+  &__val   { font-family: $font-primary; font-size: 0.9rem; font-weight: 700; color: #fff; }
+}
+
+.stats-summary {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.65);
+  font-style: italic;
+  padding: 0.6rem 1rem;
+  background: rgba(255,255,255,0.06);
+  border-radius: $radius-sm;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+// ─── Botón volver ─────────────────────────────────────────────────────────────
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: $radius-pill;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.8);
+  font-family: $font-secondary;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: $transition-fast;
+  margin-top: 0.5rem;
+
+  &:hover { background: rgba(255,255,255,0.18); color: #fff; transform: translateY(-1px); }
+}
