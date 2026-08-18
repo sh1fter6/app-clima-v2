@@ -34,7 +34,7 @@ const globalBgClass = computed(() => {
     <router-view></router-view>
 
     <footer class="app-footer">
-      <p>© 2026 ClimaChile | Sitio hecho para portafolio | Bootcamp front-end trainee Sence, Sustantiva Spa</p>
+      <p>© 2026 ClimaChile | Sitio por Martin Poquet para portafolio | Bootcamp front-end trainee Sence, Sustantiva Spa</p>
     </footer>
   </div>
 </template>
