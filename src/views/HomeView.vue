@@ -129,7 +129,7 @@ function handleClick(regionId) {
             <transition name="fade">
               <div v-show="showTutorial" class="inline-tutorial">
                 <p>Desliza el mapa para seleccionar una región</p>
-                <span class="tutorial-arrow">↕</span>
+                <span class="tutorial-arrow">&#x2195;&#xFE0E;</span>
               </div>
             </transition>
           </div>
