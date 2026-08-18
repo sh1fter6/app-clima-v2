@@ -331,6 +331,7 @@ export const useWeatherStore = defineStore('weather', () => {
     weatherData,
     fetchRegionWeather,
     getRegionWeather,
+    getCityWeather,
     fetchAllCapitals,
     getCapitalWeather
   }
