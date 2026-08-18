@@ -12,6 +12,8 @@ const weatherStore = useWeatherStore()
 const busqueda = ref('')
 const sugerencias = ref([])
 const buscandoGeo = ref(false)
+const selectedIndex = ref(-1)
+const searchWrap = ref(null)
 let debounceTimer = null
 
 // Aplanamos todas las comunas en un solo array para búsqueda rápida
@@ -26,12 +28,30 @@ for (const regionSlug in comunasData) {
   })
 }
 
+function closeSearch() {
+  busqueda.value = ''
+  sugerencias.value = []
+  selectedIndex.value = -1
+}
+
+function handleClickOutside(event) {
+  if (searchWrap.value && !searchWrap.value.contains(event.target)) {
+    closeSearch()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
 onUnmounted(() => {
   clearTimeout(debounceTimer)
+  document.removeEventListener('click', handleClickOutside)
 })
 
 watch(busqueda, val => {
   sugerencias.value = []
+  selectedIndex.value = -1
   clearTimeout(debounceTimer)
   const q = val.trim().toLowerCase()
   if (q.length < 2) return
@@ -47,7 +67,6 @@ watch(busqueda, val => {
     buscandoGeo.value = false // Mostramos los nombres al instante
     
     // 2. Hidratación asíncrona en Lotes (Batch SWR)
-    // Agrupamos por región para no saturar la API
     const byRegion = {}
     sugerencias.value.forEach(s => {
       if (!byRegion[s.slugRegion]) byRegion[s.slugRegion] = []
@@ -59,7 +78,6 @@ watch(busqueda, val => {
       if (!wDataArray) return
       
       wDataArray.forEach(w => {
-        // Actualizamos sobre el Proxy Reactivo (sugerencias.value)
         const target = sugerencias.value.find(s => s.id === w.id)
         if (target) {
           target.temp = w.tempActual
@@ -67,14 +85,35 @@ watch(busqueda, val => {
         }
       })
     })
-  }, 150) // Debounce rápido
+  }, 150)
 })
 
+function onArrowDown() {
+  if (!sugerencias.value.length) return
+  selectedIndex.value = (selectedIndex.value + 1) % sugerencias.value.length
+}
+
+function onArrowUp() {
+  if (!sugerencias.value.length) return
+  selectedIndex.value = selectedIndex.value <= 0 
+    ? sugerencias.value.length - 1 
+    : selectedIndex.value - 1
+}
+
+function onEnter() {
+  if (!sugerencias.value.length) return
+  if (selectedIndex.value >= 0) {
+    goCity(sugerencias.value[selectedIndex.value])
+  } else {
+    goCity(sugerencias.value[0]) // Enter by default goes to the first match
+  }
+}
+
 function goCity(s) {
+  if (!s) return
   const region = s.slugRegion || 'global'
   router.push(`/${region}/${s.id}`)
-  busqueda.value = ''
-  sugerencias.value = []
+  closeSearch()
 }
 </script>
 
@@ -86,7 +125,7 @@ function goCity(s) {
     </router-link>
     
     <!-- Buscador (Derecha) -->
-    <div class="nav-search-wrap">
+    <div class="nav-search-wrap" ref="searchWrap">
       <div class="nav-pill nav-search-pill">
         <span class="search-icon">🔍</span>
         <input
@@ -95,21 +134,27 @@ function goCity(s) {
           placeholder="Buscar comuna o ciudad..."
           v-model="busqueda"
           autocomplete="off"
+          @keydown.down.prevent="onArrowDown"
+          @keydown.up.prevent="onArrowUp"
+          @keydown.enter.prevent="onEnter"
+          @keydown.esc.prevent="closeSearch"
         />
         <span v-if="buscandoGeo" class="search-spinner">…</span>
-        <button v-else-if="busqueda" class="search-clear" @click="busqueda = ''">✕</button>
+        <button v-else-if="busqueda" class="search-clear" @click="closeSearch">✕</button>
       </div>
 
       <!-- Dropdown -->
       <div v-if="sugerencias.length" class="nav-geo-dropdown">
         <button
-          v-for="s in sugerencias" :key="s.id"
+          v-for="(s, i) in sugerencias" :key="s.id"
           class="nav-geo-dropdown__item"
+          :class="{ 'is-selected': i === selectedIndex }"
           @click="goCity(s)"
+          @mouseover="selectedIndex = i"
         >
           <span class="nav-geo-dropdown__city">{{ s.nombre }}</span>
           <span class="nav-geo-dropdown__temp" v-if="s.temp !== undefined">
-            {{ s.temp }}°C 
+            {{ s.temp }}°C
             <img :src="getIcon(s.estado)" class="nav-geo-dropdown__icon" />
           </span>
         </button>
@@ -241,7 +286,8 @@ function goCity(s) {
   border-bottom: none;
 }
 
-.nav-geo-dropdown__item:hover {
+.nav-geo-dropdown__item:hover,
+.nav-geo-dropdown__item.is-selected {
   background: rgba(255, 255, 255, 0.1);
 }
 

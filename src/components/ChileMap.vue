@@ -1,34 +1,14 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import * as d3 from 'd3-geo'
 
 const props = defineProps({
   regionActiva: String // Slug de la región seleccionada
 })
-const emit = defineEmits(['hover', 'click'])
+const emit = defineEmits(['update:regionActiva'])
 
 const svgContainer = ref(null)
 const mapPaths = ref([])
-
-const slugMap = {
-  "Región de Arica y Parinacota": "arica",
-  "Región de Tarapacá": "tarapaca",
-  "Región de Antofagasta": "antofagasta",
-  "Región de Atacama": "atacama",
-  "Región de Coquimbo": "coquimbo",
-  "Región de Valparaíso": "valparaiso",
-  "Región Metropolitana de Santiago": "metropolitana",
-  "Región del Libertador Bernardo O'Higgins": "ohiggins",
-  "Región del Maule": "maule",
-  "Región de Ñuble": "nuble",
-  "Región del Biobío": "biobio",
-  "Región de La Araucanía": "araucania",
-  "Región de Los Ríos": "losrios",
-  "Región de Los Lagos": "loslagos",
-  "Región Aisén del General Carlos Ibáñez del Campo": "aysen",
-  "Región de Magallanes y de la Antártica Chilena": "magallanes",
-  "Región de Magallanes y de la Antártica Chilena ": "magallanes" // Por si acaso
-}
 
 onMounted(async () => {
   try {
@@ -73,10 +53,64 @@ onMounted(async () => {
         d: pathGenerator(feature)
       }
     })
+    
+    // Iniciar tracking de scroll
+    if (svgContainer.value) {
+      svgContainer.value.addEventListener('scroll', handleScroll, { passive: true })
+      // Forzar evaluación inicial
+      setTimeout(handleScroll, 100)
+    }
+    
   } catch (error) {
     console.error('Error cargando mapa:', error)
   }
 })
+
+onUnmounted(() => {
+  if (svgContainer.value) {
+    svgContainer.value.removeEventListener('scroll', handleScroll)
+  }
+})
+
+// Scroll Tracking
+let scrollTicking = false
+function handleScroll() {
+  if (!scrollTicking) {
+    window.requestAnimationFrame(() => {
+      updateActiveRegionFromScroll()
+      scrollTicking = false
+    })
+    scrollTicking = true
+  }
+}
+
+function updateActiveRegionFromScroll() {
+  if (!svgContainer.value) return
+  
+  const containerRect = svgContainer.value.getBoundingClientRect()
+  // Centro exacto del contenedor
+  const centerY = containerRect.top + (containerRect.height / 2)
+  
+  const paths = svgContainer.value.querySelectorAll('.region-path')
+  let closestId = null
+  let minDistance = Infinity
+  
+  paths.forEach(path => {
+    const rect = path.getBoundingClientRect()
+    // Centro vertical del bounding box de esta región
+    const pathCenterY = rect.top + (rect.height / 2)
+    const distance = Math.abs(pathCenterY - centerY)
+    
+    if (distance < minDistance) {
+      minDistance = distance
+      closestId = path.getAttribute('data-id')
+    }
+  })
+  
+  if (closestId && props.regionActiva !== closestId) {
+    emit('update:regionActiva', closestId)
+  }
+}
 </script>
 
 <template>
@@ -86,11 +120,10 @@ onMounted(async () => {
         <path
           v-for="region in mapPaths"
           :key="region.id"
+          :data-id="region.id"
           :d="region.d"
           :class="['region-path', { active: props.regionActiva === region.id }]"
-          @mouseenter="emit('hover', region.id)"
-          @mouseleave="emit('hover', null)"
-          @click="emit('click', region.id)"
+          @click="emit('update:regionActiva', region.id)"
         >
           <title>{{ region.nombre }}</title>
         </path>
@@ -119,7 +152,7 @@ onMounted(async () => {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Para que empiece desde arriba y no centrado */
-  padding: 4rem 0; /* Margen arriba y abajo para scrollear hasta el fondo */
+  padding: 50vh 0; /* Padding dinámico para que Arica y Magallanes lleguen al centro */
   scroll-behavior: smooth;
 }
 
