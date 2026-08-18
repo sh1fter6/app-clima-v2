@@ -23,6 +23,7 @@ const unidad = ref('C')
 // Enter key handler
 function onGlobalKeydown(e) {
   if (e.key === 'Enter' && e.target.tagName !== 'INPUT' && regionActiva.value) {
+    e.preventDefault()
     handleClick(regionActiva.value)
   }
 }

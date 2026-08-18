@@ -1,29 +1,35 @@
 const fs = require('fs');
 
 const slugs = [
-  "arica",
-  "tarapaca",
-  "antofagasta",
-  "atacama",
-  "coquimbo",
-  "valparaiso",
-  "metropolitana",
-  "ohiggins",
-  "maule",
-  "nuble",
-  "biobio",
-  "araucania",
-  "losrios",
-  "loslagos",
-  "aysen",
-  "magallanes"
+  "arica",           // 1
+  "tarapaca",        // 2
+  "antofagasta",     // 3
+  "atacama",         // 4
+  "coquimbo",        // 5
+  "valparaiso",      // 6
+  "metropolitana",   // 7
+  "ohiggins",        // 8
+  "maule",           // 9
+  "biobio",          // 10 (incluye ñuble temporalmente)
+  "araucania",       // 11
+  "losrios",         // 12
+  "loslagos",        // 13
+  "aysen",           // 14
+  "magallanes"       // 15
 ];
 
 const csv = fs.readFileSync('/tmp/comunas.csv', 'utf8');
 const lines = csv.trim().split('\n').slice(1);
 
-const result = {};
+const result = { nuble: [] };
 slugs.forEach(s => result[s] = []);
+
+const comunasNuble = new Set([
+  "bulnes", "chillan", "chillanviejo", "cobquecura", "coelemu", "coihueco",
+  "elcarmen", "ninhue", "niquen", "pemuco", "pinto", "portezuelo", "quillon",
+  "quirihue", "ranquil", "sancarlos", "sanfabian", "sanignacio", "sannicolas",
+  "treguaco", "yungay"
+]);
 
 lines.forEach(line => {
   // Line format: "1","1","Arica","-18.4707","-70.2945"
@@ -40,7 +46,13 @@ lines.forEach(line => {
       const text = nombre;
       const slugId = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "");
       
-      result[slugs[region_id]].push({
+      let targetRegion = slugs[region_id];
+      // Mover a Ñuble si estaba en Biobío y pertenece a Ñuble
+      if (targetRegion === "biobio" && comunasNuble.has(slugId)) {
+        targetRegion = "nuble";
+      }
+
+      result[targetRegion].push({
         id: slugId,
         nombre: nombre,
         lat: lat,

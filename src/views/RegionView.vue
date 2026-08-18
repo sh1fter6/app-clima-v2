@@ -84,9 +84,18 @@ function verDetalle(city) {
 
     <main class="app-content">
       <div class="page-header" v-if="regionMeta">
-        <router-link to="/" class="back-link">← Volver al Mapa de Chile</router-link>
-        <h1>Región de {{ regionMeta.nombre }}</h1>
-        <p>Datos en tiempo real para todas las comunas registradas</p>
+        <div style="display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1rem;">
+          <router-link to="/" class="circle-back-btn" aria-label="Volver al inicio">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </router-link>
+          <div style="display: flex; flex-direction: column;">
+            <h1 style="margin: 0; line-height: 1;">Región de {{ regionMeta.nombre }}</h1>
+            <p style="margin: 0.5rem 0 0 0;">Datos en tiempo real para todas las comunas registradas</p>
+          </div>
+        </div>
       </div>
 
       <div v-if="loading" class="cards-grid">
@@ -139,6 +148,37 @@ function verDetalle(city) {
 </template>
 
 <style scoped>
+.app-content {
+  padding-top: 6rem; /* Espaciado extra para que el NavBar fijo no tape el contenido */
+}
+
+.circle-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.2s, background 0.2s;
+  flex-shrink: 0;
+}
+
+.circle-back-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
 .back-link {
   display: inline-block;
   margin-bottom: 15px;

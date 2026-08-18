@@ -24,6 +24,7 @@ const bgClass = computed(() => {
 })
 
 async function cargar() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
   loading.value = true
   error.value   = ''
   const region = route.params.region || 'global'
@@ -92,9 +93,17 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
         <div class="d-hero staggered-item" style="animation-delay: 0.1s">
           <div class="d-hero__main">
             <div class="d-hero__city-row">
-              <div>
-                <span class="d-hero__city">{{ ciudad.nombre }}</span>
-                <span class="weather-card__live-dot" title="Datos en vivo" style="margin-left:0.5rem"></span>
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <router-link :to="`/${route.params.region}`" class="circle-back-btn" aria-label="Volver a la región">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                  </svg>
+                </router-link>
+                <div>
+                  <span class="d-hero__city">{{ ciudad.nombre }}</span>
+                  <span class="weather-card__live-dot" title="Datos en vivo" style="margin-left:0.5rem"></span>
+                </div>
               </div>
               <div class="unit-toggle">
                 <button :class="{ active: unidad==='C' }" @click="unidad='C'">°C</button>
@@ -202,14 +211,38 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
           </div>
           <div class="stats-summary">{{ stats.resumen }}</div>
         </div>
-
-        <router-link :to="`/${route.params.region}`" class="back-btn">← Volver a la región</router-link>
       </template>
     </main>
   </div>
 </template>
 
 <style scoped>
+.detail-page {
+  padding-top: 6rem; /* Aire superior para evitar que el navbar fije tape contenido */
+}
+
+/* Botón circular sin borde, solo sombra, estilo neumórfico / glass */
+.circle-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.circle-back-btn:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.2);
+}
+
 /* Transición Staggered Internal */
 .staggered-item {
   opacity: 0;
