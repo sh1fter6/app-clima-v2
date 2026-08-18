@@ -92,9 +92,14 @@ const regionHoverWeather = computed(() => {
     }
   }
 
+  // Encontramos una ciudad con ese estado para robarle el label (simplificación)
+  const cityWithState = comunas.find(c => c.estadoActual === estadoComun)
+  const estadoLabel = cityWithState ? cityWithState.estadoLabel : 'Variado'
+
   return {
     tempActual: Math.round(sumTemp / comunas.length),
     estadoActual: estadoComun,
+    estadoLabel,
     min: min === 999 ? '--' : min,
     max: max === -999 ? '--' : max
   }
