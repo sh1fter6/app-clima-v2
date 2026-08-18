@@ -1,0 +1,98 @@
+{
+  "arica": {
+    "id": "arica",
+    "nombre": "Arica",
+    "lat": -18.4707,
+    "lon": -70.2945
+  },
+  "tarapaca": {
+    "id": "iquique",
+    "nombre": "Iquique",
+    "lat": -20.2474,
+    "lon": -70.1187
+  },
+  "antofagasta": {
+    "id": "antofagasta",
+    "nombre": "Antofagasta",
+    "lat": -23.6279,
+    "lon": -70.3884
+  },
+  "atacama": {
+    "id": "copiapo",
+    "nombre": "Copiapó",
+    "lat": -27.3785,
+    "lon": -70.3159
+  },
+  "coquimbo": {
+    "id": "laserena",
+    "nombre": "La Serena",
+    "lat": -29.9063,
+    "lon": -71.2346
+  },
+  "valparaiso": {
+    "id": "valparaiso",
+    "nombre": "Valparaíso",
+    "lat": -33.0547,
+    "lon": -71.6157
+  },
+  "metropolitana": {
+    "id": "santiago",
+    "nombre": "Santiago",
+    "lat": -33.4624,
+    "lon": -70.6491
+  },
+  "ohiggins": {
+    "id": "rancagua",
+    "nombre": "Rancagua",
+    "lat": -34.1732,
+    "lon": -70.731
+  },
+  "maule": {
+    "id": "talca",
+    "nombre": "Talca",
+    "lat": -35.4299,
+    "lon": -71.6555
+  },
+  "nuble": {
+    "id": "chillan",
+    "nombre": "Chillán",
+    "lat": -36.613,
+    "lon": -72.0961
+  },
+  "biobio": {
+    "id": "concepcion",
+    "nombre": "Concepción",
+    "lat": -36.8201,
+    "lon": -73.0595
+  },
+  "araucania": {
+    "id": "temuco",
+    "nombre": "Temuco",
+    "lat": -38.7357,
+    "lon": -72.6193
+  },
+  "losrios": {
+    "id": "valdivia",
+    "nombre": "Valdivia",
+    "lat": -39.8781,
+    "lon": -73.432
+  },
+  "loslagos": {
+    "id": "puertomontt",
+    "nombre": "Puerto Montt",
+    "lat": -41.4544,
+    "lon": -72.9388
+  },
+  "aysen": {
+    "id": "cisnes",
+    "nombre": "Cisnes",
+    "lat": -44.7093,
+    "lon": -72.6796
+  },
+  "magallanes": {
+    "id": "puntaarenas",
+    "nombre": "Punta Arenas",
+    "lat": -53.1522,
+    "lon": -70.9194
+  }
+}

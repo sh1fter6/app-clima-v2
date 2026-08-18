@@ -26,13 +26,14 @@ function wmoToLabel(code) {
 }
 
 function lunaFase() {
-  const fases = ['Nueva', 'Creciente', 'Llena', 'Menguante']
-  // Aproximación simple basada en el día del mes
-  const d = new Date().getDate()
-  if (d <= 7)  return 'Nueva'
-  if (d <= 14) return 'Creciente'
-  if (d <= 21) return 'Llena'
-  return 'Menguante'
+  const lp = 2551442842; // ms en un ciclo lunar (29.53 días)
+  const newMoon = new Date('2000-01-06T18:14:00Z').getTime();
+  const phase = ((Date.now() - newMoon) % lp) / lp;
+  
+  if (phase < 0.05 || phase > 0.95) return 'Nueva';
+  if (phase < 0.45) return 'Creciente';
+  if (phase < 0.55) return 'Llena';
+  return 'Menguante';
 }
 
 // Buscar ciudades por nombre → geocoding

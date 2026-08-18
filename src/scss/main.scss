@@ -4,9 +4,7 @@
 
 // ─── Panel de vidrio genérico ─────────────────────────────────────────────────
 @mixin glass-panel($blur: 18px) {
-  background: rgba(255,255,255,0.09);
-  backdrop-filter: blur($blur);
-  -webkit-backdrop-filter: blur($blur);
+  background: rgba(0,0,0,0.20);
   border: 1px solid rgba(255,255,255,0.16);
   border-radius: $radius-card;
   box-shadow: 0 4px 24px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.30);
@@ -207,6 +205,11 @@
   scroll-behavior: smooth;
   scrollbar-width: none;
   padding-bottom: 0.15rem;
+  
+  /* Centrado seguro en desktop, scroll en movil */
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 100%;
 
   &::-webkit-scrollbar { display: none; }
 }
@@ -256,13 +259,19 @@
 // ─── Dos columnas (alertas + forecast) ───────────────────────────────────────
 .d-two-col {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 
-  .glass-panel { margin-bottom: 0; }
-
-  @media (max-width: 620px) {
-    grid-template-columns: 1fr;
+  @media (min-width: 850px) {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

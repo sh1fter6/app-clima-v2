@@ -5,8 +5,8 @@ $bg-rainy:   linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
 $bg-clear-night: linear-gradient(135deg, #0d0d2b 0%, #1a1a4e 40%, #0a3d62 100%);
 
 // ─── Glass card tokens ────────────────────────────────────────────────────────
-$glass-bg:          rgba(255,255,255,0.12);
-$glass-bg-hover:    rgba(255,255,255,0.20);
+$glass-bg:          rgba(0,0,0,0.25);
+$glass-bg-hover:    rgba(0,0,0,0.35);
 $glass-border:      rgba(255,255,255,0.22);
 $glass-inner-light: rgba(255,255,255,0.35);
 $glass-blur:        18px;

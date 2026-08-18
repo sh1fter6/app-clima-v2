@@ -4,6 +4,7 @@ import { useRoute } from 'vue-router'
 import { useWeatherStore } from '../stores/weatherStore'
 import { getIcon, formatTemp, calcStats, calcAlerts } from '../data/weatherData.js'
 import comunasData from '../data/chile-comunas.json'
+import regionesData from '../data/regiones.json'
 
 const route   = useRoute()
 const weatherStore = useWeatherStore()
@@ -13,15 +14,13 @@ const ciudad  = ref(null)
 const loading = ref(true)
 const error   = ref('')
 
+const regionMeta = computed(() => {
+  return regionesData.features.find(f => f.id === route.params.region || f.properties.slug === route.params.region)?.properties
+})
+
 const stats  = computed(() => ciudad.value ? calcStats(ciudad.value.pronosticoSemanal) : null)
 const alertas = computed(() => stats.value ? calcAlerts(stats.value, ciudad.value.tempActual) : [])
-const bgClass = computed(() => {
-  if (!ciudad.value) return 'weather-bg--cloudy'
-  if (ciudad.value.estadoActual === 'sunny' && ciudad.value.tempActual >= 39) {
-    return 'weather-bg--hot'
-  }
-  return `weather-bg--${ciudad.value.estadoActual}`
-})
+
 
 async function cargar() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -66,11 +65,6 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
 
 <template>
   <div>
-    <div class="weather-bg" :class="bgClass">
-      <div v-for="i in 14" :key="i" class="particle"
-        :style="{ left: (Math.random()*100)+'%', width: (Math.random()*3+1.5)+'px', height: (Math.random()*3+1.5)+'px', animationDuration: (Math.random()*12+8)+'s', animationDelay: (Math.random()*10)+'s' }">
-      </div>
-    </div>
 
     <main class="app-content detail-page">
 
@@ -100,9 +94,14 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
                     <polyline points="12 19 5 12 12 5"></polyline>
                   </svg>
                 </router-link>
-                <div>
-                  <span class="d-hero__city">{{ ciudad.nombre }}</span>
-                  <span class="weather-card__live-dot" title="Datos en vivo" style="margin-left:0.5rem"></span>
+                <div style="display: flex; flex-direction: column;">
+                  <span v-if="regionMeta" style="font-size: 0.9rem; letter-spacing: 0.5px; opacity: 0.9; font-weight: 800; margin-bottom: 0.1rem; text-shadow: 0 1px 2px rgba(0,0,0,0.3);">
+                    {{ regionMeta.nombre }}
+                  </span>
+                  <div style="display: flex; align-items: center;">
+                    <span class="d-hero__city">{{ ciudad.nombre }}</span>
+                    <span class="weather-card__live-dot" title="Datos en vivo" style="margin-left:0.5rem"></span>
+                  </div>
                 </div>
               </div>
               <div class="unit-toggle">
@@ -167,16 +166,38 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
           </div>
         </div>
 
-        <!-- ── DOS COLUMNAS: alertas + pronóstico ─────────────────────── -->
+        <!-- ── DOS COLUMNAS: (alertas + resumen) + pronóstico ─────────────────────── -->
         <div class="d-two-col staggered-item" style="animation-delay: 0.3s">
-          <div class="glass-panel">
-            <h3 class="section-title">Alertas</h3>
-            <div v-for="(a, i) in alertas" :key="i" class="alert-item" :class="'alert-item--'+a.tipo">
-              <div class="alert-item__icon">{{ a.icon }}</div>
-              <div>
-                <div class="alert-item__title">{{ a.titulo }}</div>
-                <div class="alert-item__msg">{{ a.msg }}</div>
+          
+          <div class="d-two-col__left">
+            <div class="glass-panel">
+              <h3 class="section-title">Alertas</h3>
+              <div v-if="alertas.length > 0">
+                <div v-for="(a, i) in alertas" :key="i" class="alert-item" :class="'alert-item--'+a.tipo">
+                  <div class="alert-item__icon">{{ a.icon }}</div>
+                  <div>
+                    <div class="alert-item__title">{{ a.titulo }}</div>
+                    <div class="alert-item__msg">{{ a.msg }}</div>
+                  </div>
+                </div>
               </div>
+              <div v-else style="opacity: 0.5; font-size: 0.85rem; padding: 0.5rem 0;">
+                No hay alertas meteorológicas activas.
+              </div>
+            </div>
+
+            <!-- ── STATS ──────────────────────────────────────────────────── -->
+            <div class="glass-panel staggered-item" style="animation-delay: 0.4s; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+              <h3 class="section-title">Resumen semanal</h3>
+              <div class="stats-inline">
+                <div class="stat-pill"><span class="stat-pill__label">Mín</span><span class="stat-pill__val">{{ formatTemp(stats.min, unidad) }}</span></div>
+                <div class="stat-pill"><span class="stat-pill__label">Máx</span><span class="stat-pill__val">{{ formatTemp(stats.max, unidad) }}</span></div>
+                <div class="stat-pill"><span class="stat-pill__label">Prom</span><span class="stat-pill__val">{{ formatTemp(stats.promedio, unidad) }}</span></div>
+                <div class="stat-pill"><span class="stat-pill__label">☀️</span><span class="stat-pill__val">{{ stats.soleados }}d</span></div>
+                <div class="stat-pill"><span class="stat-pill__label">⛅</span><span class="stat-pill__val">{{ stats.nublados }}d</span></div>
+                <div class="stat-pill"><span class="stat-pill__label">🌧️</span><span class="stat-pill__val">{{ stats.lluviosos }}d</span></div>
+              </div>
+              <div class="stats-summary" style="margin-top: auto; padding-top: 1rem;">{{ stats.resumen }}</div>
             </div>
           </div>
 
@@ -197,20 +218,6 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
             </div>
           </div>
         </div>
-
-        <!-- ── STATS ──────────────────────────────────────────────────── -->
-        <div class="glass-panel staggered-item" style="animation-delay: 0.4s">
-          <h3 class="section-title">Resumen semanal</h3>
-          <div class="stats-inline">
-            <div class="stat-pill"><span class="stat-pill__label">Mín</span><span class="stat-pill__val">{{ formatTemp(stats.min, unidad) }}</span></div>
-            <div class="stat-pill"><span class="stat-pill__label">Máx</span><span class="stat-pill__val">{{ formatTemp(stats.max, unidad) }}</span></div>
-            <div class="stat-pill"><span class="stat-pill__label">Prom</span><span class="stat-pill__val">{{ formatTemp(stats.promedio, unidad) }}</span></div>
-            <div class="stat-pill"><span class="stat-pill__label">☀️</span><span class="stat-pill__val">{{ stats.soleados }}d</span></div>
-            <div class="stat-pill"><span class="stat-pill__label">⛅</span><span class="stat-pill__val">{{ stats.nublados }}d</span></div>
-            <div class="stat-pill"><span class="stat-pill__label">🌧️</span><span class="stat-pill__val">{{ stats.lluviosos }}d</span></div>
-          </div>
-          <div class="stats-summary">{{ stats.resumen }}</div>
-        </div>
       </template>
     </main>
   </div>
@@ -218,10 +225,10 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
 
 <style scoped>
 .detail-page {
-  padding-top: 6rem; /* Aire superior para evitar que el navbar fije tape contenido */
+  padding-top: 6rem;
 }
 
-/* Botón circular sin borde, solo sombra, estilo neumórfico / glass */
+/* Botón Volver */
 .circle-back-btn {
   display: flex;
   align-items: center;
@@ -233,8 +240,6 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
   color: #fff;
   text-decoration: none;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition: transform 0.2s, background 0.2s;
 }
 

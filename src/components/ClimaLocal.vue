@@ -9,20 +9,26 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="clima-local" v-if="clima">
+  <div class="clima-local">
     <div class="cl-top">
       <span class="cl-ubicacion">📍 {{ localidad || 'Ubicación actual' }}</span>
     </div>
-    
-    <div class="cl-main">
+
+    <div class="cl-main" v-if="clima">
       <span class="cl-temp">{{ formatTemp(clima.tempActual, unidad) }}</span>
       <div class="cl-estado-wrap">
         <img :src="getIcon(clima.estadoActual)" :alt="clima.estadoLabel" class="cl-icon" />
         <span class="cl-estado">{{ clima.estadoLabel }}</span>
       </div>
     </div>
-    
-    <div class="cl-meta">
+    <div class="cl-main cl-skeleton" v-else>
+      <span class="cl-temp">--°</span>
+      <div class="cl-estado-wrap">
+        <span class="cl-estado" style="opacity:0.4">Cargando...</span>
+      </div>
+    </div>
+
+    <div class="cl-meta" v-if="clima">
       Sensación térmica {{ formatTemp(clima.sensacion, unidad) }} • 💧 {{ clima.humedad }}
     </div>
   </div>
@@ -32,9 +38,9 @@ const props = defineProps({
 .clima-local {
   color: #fff;
   font-family: 'Inter', sans-serif;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  padding-bottom: 2rem;
+  margin-top: 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
 }
 
 .cl-top {

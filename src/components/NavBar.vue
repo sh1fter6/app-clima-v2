@@ -16,7 +16,6 @@ const selectedIndex = ref(-1)
 const searchWrap = ref(null)
 let debounceTimer = null
 
-// Aplanamos todas las comunas en un solo array para búsqueda rápida
 const todasLasComunas = []
 for (const regionSlug in comunasData) {
   comunasData[regionSlug].forEach(c => {
@@ -58,15 +57,12 @@ watch(busqueda, val => {
   
   buscandoGeo.value = true
   debounceTimer = setTimeout(() => {
-    // 1. Búsqueda local instantánea (O(1) filter)
     const encontradas = todasLasComunas
       .filter(c => c.nombre.toLowerCase().includes(q) || (c.id && c.id.includes(q)))
       .slice(0, 10)
     
     sugerencias.value = encontradas
-    buscandoGeo.value = false // Mostramos los nombres al instante
-    
-    // 2. Hidratación asíncrona en Lotes (Batch SWR)
+    buscandoGeo.value = false
     const byRegion = {}
     sugerencias.value.forEach(s => {
       if (!byRegion[s.slugRegion]) byRegion[s.slugRegion] = []
@@ -105,7 +101,7 @@ function onEnter() {
   if (selectedIndex.value >= 0) {
     goCity(sugerencias.value[selectedIndex.value])
   } else {
-    goCity(sugerencias.value[0]) // Enter by default goes to the first match
+    goCity(sugerencias.value[0])
   }
 }
 
@@ -119,12 +115,10 @@ function goCity(s) {
 
 <template>
   <nav class="sticky-nav">
-    <!-- Logo (Izquierda) -->
     <router-link to="/" class="nav-pill brand-pill">
       ☁️ ClimaChile
     </router-link>
     
-    <!-- Buscador (Derecha) -->
     <div class="nav-search-wrap" ref="searchWrap">
       <div class="nav-pill nav-search-pill">
         <span class="search-icon">🔍</span>
@@ -176,7 +170,6 @@ function goCity(s) {
   justify-content: space-between;
   padding: 0 3rem;
   z-index: 1000;
-  background: transparent;
   pointer-events: none;
 }
 
@@ -203,6 +196,7 @@ function goCity(s) {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   transition: background 0.3s ease;
+  white-space: nowrap;
 }
 
 .brand-pill:hover {
@@ -307,5 +301,17 @@ function goCity(s) {
 .nav-geo-dropdown__icon {
   width: 24px;
   height: 24px;
+}
+
+@media (max-width: 620px) {
+  .sticky-nav {
+    padding: 0 1rem;
+    gap: 0.5rem;
+  }
+  
+  .nav-search-wrap {
+    width: 100%; /* Toma el espacio restante en lugar de forzar 320px */
+    flex: 1;
+  }
 }
 </style>

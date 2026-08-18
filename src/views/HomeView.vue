@@ -3,7 +3,6 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useWeatherStore } from '../stores/weatherStore'
 import ChileMap from '../components/ChileMap.vue'
-import ClimaLocal from '../components/ClimaLocal.vue'
 import DetalleRegion from '../components/DetalleRegion.vue'
 import { fetchWeather } from '../api/weatherService'
 import { getRegionSlugFromAPI } from '../utils/slugify'
@@ -20,6 +19,9 @@ const isLoadingRegion = ref(false)
 const localWeather = ref(null)
 const unidad = ref('C')
 
+// Estado para el tutorial sobre el mapa
+const showTutorial = ref(true)
+
 // Enter key handler
 function onGlobalKeydown(e) {
   if (e.key === 'Enter' && e.target.tagName !== 'INPUT' && regionActiva.value) {
@@ -31,15 +33,23 @@ function onGlobalKeydown(e) {
 onMounted(async () => {
   window.addEventListener('keydown', onGlobalKeydown)
   
+  // Fetch batch de todas las capitales al inicio (caché 1 hora)
+  try {
+    await weatherStore.fetchAllCapitals()
+  } catch(e) {
+    console.error('Error pre-cargando capitales', e)
+  }
+
   // Geolocation
   try {
     const ipRes = await fetch('https://ipapi.co/json/')
     const ipData = await ipRes.json()
     const detectedSlug = getRegionSlugFromAPI(ipData.region)
     // Inicializamos con la región detectada o la Metropolitana por defecto
-    regionActiva.value = detectedSlug !== 'global' ? detectedSlug : 'metropolitana'
+    const initialRegion = detectedSlug !== 'global' ? detectedSlug : 'metropolitana'
+    handleActiveRegion(initialRegion, true)
   } catch(e) {
-    regionActiva.value = 'metropolitana'
+    handleActiveRegion('metropolitana', true)
   }
 
   // Fetch clima local inicial (Santiago por defecto)
@@ -62,59 +72,26 @@ const regionHoverData = computed(() => {
   return regionesData.features.find(f => f.id === regionActiva.value || f.properties.slug === regionActiva.value)?.properties
 })
 
-// Computed para el clima promedio de la región activa
+// Computed para el clima promedio (ahora sólo retorna el de la capital pre-cacheada)
 const regionHoverWeather = computed(() => {
   if (!regionActiva.value) return null
-  const comunas = weatherStore.getRegionWeather(regionActiva.value, comunasData[regionActiva.value])
-  if (!comunas || comunas.length === 0) return null
-
-  // Promedio básico de la región
-  let min = 999
-  let max = -999
-  let sumTemp = 0
-  let modeCondition = {}
-
-  comunas.forEach(c => {
-    sumTemp += c.tempActual
-    const dMin = c.pronosticoSemanal?.[0]?.min ?? 999
-    const dMax = c.pronosticoSemanal?.[0]?.max ?? -999
-    if (dMin < min) min = dMin
-    if (dMax > max) max = dMax
-    
-    modeCondition[c.estadoActual] = (modeCondition[c.estadoActual] || 0) + 1
-  })
-
-  let estadoComun = 'cloudy'
-  let maxOcurrencias = 0
-  for (const estado in modeCondition) {
-    if (modeCondition[estado] > maxOcurrencias) {
-      maxOcurrencias = modeCondition[estado]
-      estadoComun = estado
-    }
-  }
-
-  // Encontramos una ciudad con ese estado para robarle el label (simplificación)
-  const cityWithState = comunas.find(c => c.estadoActual === estadoComun)
-  const estadoLabel = cityWithState ? cityWithState.estadoLabel : 'Variado'
-
-  return {
-    tempActual: Math.round(sumTemp / comunas.length),
-    estadoActual: estadoComun,
-    estadoLabel,
-    min: min === 999 ? '--' : min,
-    max: max === -999 ? '--' : max
-  }
+  return weatherStore.getCapitalWeather(regionActiva.value)
 })
 
-async function handleActiveRegion(slug) {
+let debounceFetchTimer = null
+async function handleActiveRegion(slug, isInitial = false) {
   regionActiva.value = slug
-  if (!slug) return
+  
+  if (slug && showTutorial.value && !isInitial) {
+    showTutorial.value = false // Oculta el tutorial al primer cambio
+  }
 
+  if (!slug) return
+  
+  // Ya no hacemos fetch aquí, los datos están cacheados
   const comunas = comunasData[slug]
   if (comunas) {
-    isLoadingRegion.value = true
-    await weatherStore.fetchRegionWeather(slug, comunas)
-    isLoadingRegion.value = false
+    regionHoverData.value = { id: slug, nombre: regionesData.features.find(f => f.id === slug || f.properties.slug === slug)?.properties.nombre, comunas }
   }
 }
 
@@ -147,24 +124,22 @@ function handleClick(regionId) {
       <!-- Derecha: Detalles interactivos -->
       <div class="details-side">
         <div class="info-content">
-          <ClimaLocal 
-            :clima="localWeather" 
-            :unidad="unidad"
-            localidad="Santiago, Chile" 
-          />
+          <!-- Tutorial Inline con espacio reservado (wrapper) para evitar solapamientos y saltos -->
+          <div class="tutorial-wrapper">
+            <transition name="fade">
+              <div v-show="showTutorial" class="inline-tutorial">
+                <p>Desliza el mapa para seleccionar una región</p>
+                <span class="tutorial-arrow">↕</span>
+              </div>
+            </transition>
+          </div>
 
-          <transition name="fade" mode="out-in">
-            <DetalleRegion 
-              v-if="regionActiva"
-              :key="regionActiva"
-              :region="regionHoverData"
-              :climaPromedio="regionHoverWeather"
-              :unidad="unidad"
-            />
-            <div v-else class="empty-state">
-              Desliza el mapa para descubrir el clima de Chile.
-            </div>
-          </transition>
+          <DetalleRegion 
+            v-if="regionActiva"
+            :region="regionHoverData"
+            :climaPromedio="regionHoverWeather"
+            :unidad="unidad"
+          />
         </div>
       </div>
     </div>
@@ -176,7 +151,7 @@ function handleClick(regionId) {
   min-height: 100vh;
   background-color: #050505; /* Fondo negro según reqs */
   color: #ffffff;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .bg-black {
@@ -188,24 +163,29 @@ function handleClick(regionId) {
 
 .split-screen {
   display: flex;
-  height: 100vh;
+  flex-wrap: wrap;
+  min-height: 100vh;
+  width: 100%;
 }
 
 .map-side {
-  flex: 1;
+  flex: 1 1 400px;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding-left: clamp(10px, 3vw, 20px);
+  overflow: hidden;
+  max-height: 100vh;
 }
 
 .go-region-btn {
   position: absolute;
-  right: 2rem;
+  right: clamp(1rem, 4vw, 2rem);
   top: 50%;
   transform: translateY(-50%);
-  width: 54px;
-  height: 54px;
+  width: clamp(46px, 12vw, 54px);
+  height: clamp(46px, 12vw, 54px);
   border-radius: 50%;
   border: 2px solid #ffffff;
   background-color: #050505;
@@ -225,25 +205,74 @@ function handleClick(regionId) {
 }
 
 .details-side {
-  flex: 1;
-  padding: 4rem;
+  flex: 1 1 450px;
+  padding: clamp(1.5rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .top-bar {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 2rem;
+  margin-bottom: clamp(1rem, 3vw, 2rem);
 }
 
 .info-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Fija ClimaLocal arriba para que no salte al aparecer DetalleRegion */
-  padding-top: 2rem;
-  gap: 2rem;
+  justify-content: center; /* Centrado vertical para bajar el bloque completo de forma armoniosa */
+  gap: clamp(1.5rem, 4vw, 2rem);
+  position: relative;
+}
+
+.tutorial-wrapper {
+  height: 2rem;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Tutorial Inline (Sección derecha) */
+.inline-tutorial {
+  width: 100%;
+  text-align: left;
+  color: #fff;
+  opacity: 0.7;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tutorial-arrow {
+  font-size: 1.5rem;
+  display: inline-block;
+  animation: slideFadeStretch 3s infinite ease-in-out;
+}
+
+@keyframes slideFadeStretch {
+  /* Fase Hacia Arriba */
+  0% { transform: translateY(0) scaleY(1); opacity: 1; }
+  20% { transform: translateY(-8px) scaleY(1.3); opacity: 0; }
+  25% { transform: translateY(0) scaleY(1); opacity: 0; }
+  
+  /* Fase Hacia Abajo */
+  50% { transform: translateY(0) scaleY(1); opacity: 1; }
+  70% { transform: translateY(8px) scaleY(1.3); opacity: 0; }
+  75% { transform: translateY(0) scaleY(1); opacity: 0; }
+  
+  100% { transform: translateY(0) scaleY(1); opacity: 1; }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.8s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
 }
 
 .empty-state {
@@ -254,13 +283,13 @@ function handleClick(regionId) {
   margin-top: 0;
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+/* W3C Standard Structural Breakpoint */
+@media (max-width: 850px) {
+  .map-side {
+    flex: 0 0 100%;
+    aspect-ratio: 1 / 1;
+    max-height: 60vh; /* Asegurarnos que en móvil no sea absurdamente grande si es una tablet vertical */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
 }
 </style>
