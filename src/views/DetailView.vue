@@ -44,8 +44,13 @@ async function cargar() {
       cityData = weatherStore.getCityWeather(region, city)
     }
   }
-  // Si tenemos datos parciales (ej: de NavBar antigua) pero no el pronóstico
-  else if (cityData && !cityData.pronosticoSemanal && cityData.lat && cityData.lon) {
+  // Si tenemos datos parciales (ej: de capitales o NavBar antigua) pero no el pronóstico completo
+  else if (
+    cityData && 
+    (!cityData.pronosticoSemanal || cityData.pronosticoSemanal.length < 7 || !cityData.pronosticoHoras || cityData.pronosticoHoras.length === 0) && 
+    cityData.lat && 
+    cityData.lon
+  ) {
     await weatherStore.fetchRegionWeather(region, [cityData])
     cityData = weatherStore.getCityWeather(region, city)
   }
@@ -279,7 +284,7 @@ function handleFav() {
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
-    backdrop-filter: blur($glass-blur-detail);
+    backdrop-filter: blur(12px);
   }
 }
 

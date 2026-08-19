@@ -6,7 +6,7 @@ const WX_URL = 'https://api.open-meteo.com/v1/forecast'
 
 export const useWeatherStore = defineStore('weather', () => {
   // --- Invalidación de Caché (por ej. si cambian los cálculos internos) ---
-  const CURRENT_CACHE_VERSION = '1.1'
+  const CURRENT_CACHE_VERSION = '1.2'
   if (localStorage.getItem('weatherCacheVersion') !== CURRENT_CACHE_VERSION) {
     localStorage.removeItem('weatherData')
     localStorage.removeItem('cacheMeta')
@@ -128,6 +128,14 @@ export const useWeatherStore = defineStore('weather', () => {
         const d = isArray ? data[index] : data
         const current = d.current_weather || {}
         
+        const ahora = new Date()
+        const hHoy = ahora.getHours()
+        let startIdx = 0
+        if (d.hourly && d.hourly.time) {
+          const hIdx = d.hourly.time.findIndex(t => new Date(t).getHours() === hHoy)
+          startIdx = hIdx >= 0 ? hIdx : 0
+        }
+        
         weatherData.value[cap.id] = {
           ...cap,
           tempActual: Math.round(current.temperature),
@@ -138,12 +146,12 @@ export const useWeatherStore = defineStore('weather', () => {
             min: Math.round(d.daily.temperature_2m_min[0]),
             max: Math.round(d.daily.temperature_2m_max[0])
           }],
-          sensacion: Math.round(d.hourly?.apparent_temperature?.[0] ?? current.temperature),
+          sensacion: Math.round(d.hourly?.apparent_temperature?.[startIdx] ?? current.temperature),
           luna: getLuna(),
-          humedad: (d.hourly?.relativehumidity_2m?.[0] ?? 50) + '%'
+          humedad: (d.hourly?.relativehumidity_2m?.[startIdx] ?? 50) + '%'
         }
         
-        cacheMeta.value[cap.id] = { lastFetched: now }
+        cacheMeta.value[cap.id] = { lastFetched: now, partial: true }
       })
 
       enforceCacheLimit()
@@ -164,6 +172,8 @@ export const useWeatherStore = defineStore('weather', () => {
       const meta = cacheMeta.value[c.id]
       // Si no existe, necesita fetch
       if (!meta) return true
+      // Si existe pero es parcial, NECESITA fetch completo para DetailView/RegionView
+      if (meta.partial) return true
       // Si existe pero pasaron más de 15 min, es STALE -> necesita revalidate (background)
       if (now - meta.lastFetched > TTL) return true
       // Está fresco
