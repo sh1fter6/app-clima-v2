@@ -57,12 +57,8 @@ const regionMeta = computed(() => {
 })
 
 const nombreOficialRegion = computed(() => {
-  console.log('[DEBUG] route.params.region:', route.params.region)
-  console.log('[DEBUG] regionMeta.value:', regionMeta.value)
   if (!regionMeta.value) return ''
-  const val = `${regionMeta.value.numero} Región, ${regionMeta.value.nombre}`
-  console.log('[DEBUG] nombreOficialRegion is:', val)
-  return val
+  return `${regionMeta.value.numero} Región, ${regionMeta.value.nombre}`
 })
 
 const ciudades = computed(() => {
@@ -110,6 +106,7 @@ function verDetalle(city) {
           :index="index"
           :unidad="unidad"
           :regionName="regionMeta.nombre"
+          :slugRegion="route.params.region"
           @click="verDetalle(city)"
         />
       </div>

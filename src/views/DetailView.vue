@@ -1,13 +1,16 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useWeatherStore } from '../stores/weatherStore'
+import { useAuthStore } from '../stores/authStore'
 import { getIcon, formatTemp, calcStats, calcAlerts } from '../data/weatherData.js'
 import comunasData from '../data/chile-comunas.json'
 import regionesData from '../data/regiones.json'
 
 const route   = useRoute()
 const weatherStore = useWeatherStore()
+const authStore = useAuthStore()
+const router = useRouter()
 
 const unidad  = ref('C')
 const ciudad  = ref(null)
@@ -59,8 +62,16 @@ async function cargar() {
 onMounted(() => cargar())
 watch(() => [route.params.region, route.params.city], () => cargar())
 
-const lunaEmoji = { 'Llena':'🌕','Nueva':'🌑','Creciente':'🌙','Menguante':'🌗','Cuarto creciente':'🌒' }
-function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
+const lunaEmoji = { 'Llena':'<i class="fa-solid fa-circle"></i>','Nueva':'<i class="fa-regular fa-circle"></i>','Creciente':'<i class="fa-solid fa-moon"></i>','Menguante':'<i class="fa-solid fa-adjust"></i>','Cuarto creciente':'<i class="fa-solid fa-adjust" style="transform: rotate(180deg)"></i>' }
+function lunaIcon(l) { return lunaEmoji[l] || '<i class="fa-solid fa-moon"></i>' }
+
+function handleFav() {
+  if (!authStore.isAuthenticated) {
+    router.push('/login')
+    return
+  }
+  authStore.toggleFavorito(ciudad.value.id, route.params.region)
+}
 </script>
 
 <template>
@@ -76,7 +87,7 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
 
       <!-- Error -->
       <div v-else-if="error" class="error-state">
-        <span>⚠️</span><p>{{ error }}</p>
+        <span><i class="fa-solid fa-exclamation-triangle"></i></span><p>{{ error }}</p>
         <router-link to="/" class="back-btn" style="margin-top:1rem;">← Volver</router-link>
       </div>
 
@@ -104,9 +115,15 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
                   </div>
                 </div>
               </div>
-              <div class="unit-toggle">
-                <button :class="{ active: unidad==='C' }" @click="unidad='C'">°C</button>
-                <button :class="{ active: unidad==='F' }" @click="unidad='F'">°F</button>
+              <div style="display:flex; align-items:center; gap: 1rem;">
+                <button @click="handleFav" class="fav-btn" :class="{ 'is-fav': authStore.isFavorito(ciudad.id) }" title="Guardar en favoritos">
+                  <i class="fa-solid fa-heart" v-if="authStore.isFavorito(ciudad.id)"></i>
+                  <i class="fa-regular fa-heart" v-else></i>
+                </button>
+                <div class="unit-toggle">
+                  <button :class="{ active: unidad==='C' }" @click="unidad='C'">°C</button>
+                  <button :class="{ active: unidad==='F' }" @click="unidad='F'">°F</button>
+                </div>
               </div>
             </div>
 
@@ -124,27 +141,27 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
 
           <div class="d-hero__metrics">
             <div class="d-metric">
-              <span class="d-metric__ic">💧</span>
+              <span class="d-metric__ic"><i class="fa-solid fa-droplet"></i></span>
               <div><div class="d-metric__lb">Humedad</div><div class="d-metric__vl">{{ ciudad.humedad }}</div></div>
             </div>
             <div class="d-metric">
-              <span class="d-metric__ic">💨</span>
+              <span class="d-metric__ic"><i class="fa-solid fa-wind"></i></span>
               <div><div class="d-metric__lb">Viento</div><div class="d-metric__vl">{{ ciudad.viento }}</div></div>
             </div>
             <div class="d-metric">
-              <span class="d-metric__ic">📊</span>
+              <span class="d-metric__ic"><i class="fa-solid fa-gauge-high"></i></span>
               <div><div class="d-metric__lb">Presión</div><div class="d-metric__vl">{{ ciudad.presion }}</div></div>
             </div>
             <div class="d-metric">
-              <span class="d-metric__ic">🌧️</span>
+              <span class="d-metric__ic"><i class="fa-solid fa-cloud-rain"></i></span>
               <div><div class="d-metric__lb">Precipitación</div><div class="d-metric__vl">{{ ciudad.precipitacion }}</div></div>
             </div>
             <div class="d-metric">
-              <span class="d-metric__ic">{{ lunaIcon(ciudad.luna) }}</span>
+              <span class="d-metric__ic" v-html="lunaIcon(ciudad.luna)"></span>
               <div><div class="d-metric__lb">Luna</div><div class="d-metric__vl">{{ ciudad.luna }}</div></div>
             </div>
             <div class="d-metric">
-              <span class="d-metric__ic">📈</span>
+              <span class="d-metric__ic"><i class="fa-solid fa-arrow-trend-up"></i></span>
               <div>
                 <div class="d-metric__lb">Máx / Mín hoy</div>
                 <div class="d-metric__vl">{{ formatTemp(ciudad.pronosticoSemanal[0]?.max, unidad) }} / {{ formatTemp(ciudad.pronosticoSemanal[0]?.min, unidad) }}</div>
@@ -174,7 +191,7 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
               <h3 class="section-title">Alertas</h3>
               <div v-if="alertas.length > 0">
                 <div v-for="(a, i) in alertas" :key="i" class="alert-item" :class="'alert-item--'+a.tipo">
-                  <div class="alert-item__icon">{{ a.icon }}</div>
+                  <div class="alert-item__icon" v-html="a.icon"></div>
                   <div>
                     <div class="alert-item__title">{{ a.titulo }}</div>
                     <div class="alert-item__msg">{{ a.msg }}</div>
@@ -193,9 +210,9 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
                 <div class="stat-pill"><span class="stat-pill__label">Mín</span><span class="stat-pill__val">{{ formatTemp(stats.min, unidad) }}</span></div>
                 <div class="stat-pill"><span class="stat-pill__label">Máx</span><span class="stat-pill__val">{{ formatTemp(stats.max, unidad) }}</span></div>
                 <div class="stat-pill"><span class="stat-pill__label">Prom</span><span class="stat-pill__val">{{ formatTemp(stats.promedio, unidad) }}</span></div>
-                <div class="stat-pill"><span class="stat-pill__label">☀️</span><span class="stat-pill__val">{{ stats.soleados }}d</span></div>
-                <div class="stat-pill"><span class="stat-pill__label">⛅</span><span class="stat-pill__val">{{ stats.nublados }}d</span></div>
-                <div class="stat-pill"><span class="stat-pill__label">🌧️</span><span class="stat-pill__val">{{ stats.lluviosos }}d</span></div>
+                <div class="stat-pill"><span class="stat-pill__label"><i class="fa-solid fa-sun" style="color: #fbbf24;"></i></span><span class="stat-pill__val">{{ stats.soleados }}d</span></div>
+                <div class="stat-pill"><span class="stat-pill__label"><i class="fa-solid fa-cloud" style="color: #cbd5e1;"></i></span><span class="stat-pill__val">{{ stats.nublados }}d</span></div>
+                <div class="stat-pill"><span class="stat-pill__label"><i class="fa-solid fa-cloud-rain" style="color: #60a5fa;"></i></span><span class="stat-pill__val">{{ stats.lluviosos }}d</span></div>
               </div>
               <div class="stats-summary" style="margin-top: auto; padding-top: 1rem;">{{ stats.resumen }}</div>
             </div>
@@ -262,6 +279,28 @@ function lunaIcon(l) { return lunaEmoji[l] || '🌙' }
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
+    backdrop-filter: blur($glass-blur-detail);
   }
+}
+
+.fav-btn {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.fav-btn.is-fav {
+  color: #ff4d4d;
+  border-color: rgba(255, 77, 77, 0.3);
 }
 </style>

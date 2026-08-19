@@ -87,12 +87,6 @@ async function handleActiveRegion(slug, isInitial = false) {
   }
 
   if (!slug) return
-  
-  // Ya no hacemos fetch aquí, los datos están cacheados
-  const comunas = comunasData[slug]
-  if (comunas) {
-    regionHoverData.value = { id: slug, nombre: regionesData.features.find(f => f.id === slug || f.properties.slug === slug)?.properties.nombre, comunas }
-  }
 }
 
 // Click para navegar a la región

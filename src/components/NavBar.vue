@@ -1,13 +1,26 @@
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import comunasData from '../data/chile-comunas.json'
 import { formatSlug } from '../utils/slugify'
 import { useWeatherStore } from '../stores/weatherStore'
+import { useAuthStore } from '../stores/authStore'
 import { getIcon } from '../data/weatherData'
 
 const router = useRouter()
 const weatherStore = useWeatherStore()
+const authStore = useAuthStore()
+
+const isAuthenticated = computed(() => authStore.isAuthenticated)
+const searchActive = ref(false)
+
+function toggleSearchMobile() {
+  searchActive.value = !searchActive.value
+  if (!searchActive.value) {
+    busqueda.value = ''
+    sugerencias.value = []
+  }
+}
 
 const busqueda = ref('')
 const sugerencias = ref([])
@@ -31,6 +44,7 @@ function closeSearch() {
   busqueda.value = ''
   sugerencias.value = []
   selectedIndex.value = -1
+  searchActive.value = false
 }
 
 function handleClickOutside(event) {
@@ -39,13 +53,21 @@ function handleClickOutside(event) {
   }
 }
 
+function handleEsc(event) {
+  if (event.key === 'Escape') {
+    closeSearch()
+  }
+}
+
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
+  document.addEventListener('keydown', handleEsc)
 })
 
 onUnmounted(() => {
-  clearTimeout(debounceTimer)
   document.removeEventListener('click', handleClickOutside)
+  document.removeEventListener('keydown', handleEsc)
+  clearTimeout(debounceTimer)
 })
 
 watch(busqueda, val => {
@@ -111,19 +133,37 @@ function goCity(s) {
   router.push(`/${region}/${s.id}`)
   closeSearch()
 }
+
+function handleFav(s) {
+  if (!authStore.isAuthenticated) {
+    router.push('/login')
+    closeSearch()
+    return
+  }
+  authStore.toggleFavorito(s.id, s.slugRegion)
+}
 </script>
 
 <template>
-  <nav class="sticky-nav">
+  <nav class="sticky-nav" :class="{ 'search-is-active': searchActive }">
     <router-link to="/" class="nav-pill brand-pill">
-      ☁️ ClimaChile
+      <i class="fa-solid fa-cloud"></i> ClimaChile
     </router-link>
     
-    <div class="nav-search-wrap" ref="searchWrap">
-      <div class="nav-pill nav-search-pill">
-        <span class="search-icon">🔍</span>
-        <input
-          class="search-input"
+    <div class="nav-actions">
+      <!-- Botón de Perfil / Login -->
+      <router-link to="/login" class="nav-pill action-btn" title="Perfil">
+        <span class="icon"><i class="fa-solid fa-user"></i></span>
+      </router-link>
+
+      <!-- Buscador -->
+      <div class="nav-search-wrap" ref="searchWrap">
+        <div class="nav-pill nav-search-pill" :class="{ 'is-active': searchActive }">
+          <button class="search-icon-btn" @click="toggleSearchMobile">
+            <span class="search-icon"><i class="fa-solid fa-search"></i></span>
+          </button>
+          <input
+            class="search-input"
           type="text"
           placeholder="Buscar comuna o ciudad..."
           v-model="busqueda"
@@ -133,25 +173,34 @@ function goCity(s) {
           @keydown.enter.prevent="onEnter"
           @keydown.esc.prevent="closeSearch"
         />
-        <span v-if="buscandoGeo" class="search-spinner">…</span>
-        <button v-else-if="busqueda" class="search-clear" @click="closeSearch">✕</button>
+        <span v-if="buscandoGeo" class="search-spinner"><i class="fa-solid fa-spinner fa-spin"></i></span>
+        <button v-else-if="busqueda" class="search-clear" @click="closeSearch"><i class="fa-solid fa-times"></i></button>
       </div>
 
       <!-- Dropdown -->
       <div v-if="sugerencias.length" class="nav-geo-dropdown">
-        <button
+        <div
           v-for="(s, i) in sugerencias" :key="s.id"
           class="nav-geo-dropdown__item"
           :class="{ 'is-selected': i === selectedIndex }"
           @click="goCity(s)"
           @mouseover="selectedIndex = i"
+          role="button"
+          tabindex="0"
         >
           <span class="nav-geo-dropdown__city">{{ s.nombre }}</span>
-          <span class="nav-geo-dropdown__temp" v-if="s.temp !== undefined">
-            {{ s.temp }}°C
-            <img :src="getIcon(s.estado)" class="nav-geo-dropdown__icon" />
-          </span>
-        </button>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <span class="nav-geo-dropdown__temp" v-if="s.temp !== undefined">
+              {{ s.temp }}°C
+              <img :src="getIcon(s.estado)" class="nav-geo-dropdown__icon" />
+            </span>
+            <button @click.stop="handleFav(s)" class="fav-btn-small" :class="{ 'is-fav': authStore.isFavorito(s.id) }" title="Guardar en favoritos">
+              <i class="fa-solid fa-heart" v-if="authStore.isFavorito(s.id)"></i>
+              <i class="fa-regular fa-heart" v-else></i>
+            </button>
+          </div>
+        </div>
+      </div>
       </div>
     </div>
   </nav>
@@ -171,6 +220,13 @@ function goCity(s) {
   padding: 0 3rem;
   z-index: 1000;
   pointer-events: none;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  pointer-events: auto;
 }
 
 .sticky-nav > * {
@@ -195,7 +251,7 @@ function goCity(s) {
   font-size: 1rem;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, opacity 0.3s ease;
   white-space: nowrap;
 }
 
@@ -215,14 +271,26 @@ function goCity(s) {
   width: 100%;
 }
 
+.search-icon-btn {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 .search-icon {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #888;
-  margin-right: 0.5rem;
 }
 
 .search-input {
   flex: 1;
+  margin-left: 0.5rem;
   background: transparent;
   border: none;
   color: #fff;
@@ -274,6 +342,7 @@ function goCity(s) {
   cursor: pointer;
   transition: background 0.2s;
   color: #fff;
+  font-family: inherit;
 }
 
 .nav-geo-dropdown__item:last-child {
@@ -307,11 +376,109 @@ function goCity(s) {
   .sticky-nav {
     padding: 0 1rem;
     gap: 0.5rem;
+    justify-content: space-between;
   }
   
-  .nav-search-wrap {
-    width: 100%; /* Toma el espacio restante en lugar de forzar 320px */
-    flex: 1;
+  .sticky-nav.search-is-active .brand-pill,
+  .sticky-nav.search-is-active .action-btn {
+    opacity: 0;
+    pointer-events: none;
   }
+  
+  .nav-actions {
+    gap: 0.5rem;
+  }
+
+  .nav-search-wrap {
+    width: 48px;
+    height: 48px;
+    position: relative;
+  }
+  
+  .nav-search-pill {
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  .nav-search-pill.is-active {
+    width: calc(100vw - 2rem);
+    max-width: none;
+    border-radius: 24px;
+    padding: 0 1rem;
+    background: rgba(30, 30, 30, 0.95);
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  }
+  .search-input {
+    display: none;
+  }
+  .nav-search-pill.is-active .search-input {
+    display: block;
+    width: 100%;
+  }
+  .search-icon-btn {
+    color: white;
+    font-size: 1.2rem;
+    width: 48px;
+    height: 48px;
+  }
+  .nav-search-pill.is-active .search-icon-btn {
+    display: none;
+  }
+  .nav-search-pill.is-active .search-icon-btn {
+    display: none;
+  }
+}
+
+.action-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.3s ease, opacity 0.3s ease;
+}
+
+.action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.fav-btn-small {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  padding: 0;
+  font-size: 1.1rem;
+}
+.fav-btn-small:hover {
+  color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.1);
+}
+.fav-btn-small.is-fav {
+  color: #ff4d4d;
 }
 </style>

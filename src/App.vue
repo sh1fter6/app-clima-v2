@@ -31,7 +31,13 @@ const globalBgClass = computed(() => {
     <div class="weather-bg" :class="globalBgClass"></div>
     <NavBar />
 
-    <router-view></router-view>
+    <main class="main-content">
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </main>
 
     <footer class="app-footer">
       <p>© 2026 ClimaChile | Sitio por Martin Poquet para portafolio | Bootcamp front-end trainee Sence, Sustantiva Spa</p>
@@ -44,10 +50,17 @@ const globalBgClass = computed(() => {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background-color: #000;
 }
 /* Evitamos que router-view se solape incorrectamente */
-.app-layout > :not(.sticky-nav) {
+.app-layout > .main-content {
   flex: 1;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .sticky-nav {
@@ -64,5 +77,15 @@ const globalBgClass = computed(() => {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   z-index: 10;
+}
+
+/* Transición global para rutas */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

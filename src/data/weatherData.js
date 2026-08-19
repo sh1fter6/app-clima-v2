@@ -241,12 +241,12 @@ export function calcStats(pronostico) {
 export function calcAlerts(stats, tempActual) {
   const res = []
   if (stats.max >= 25 || tempActual >= 25)
-    res.push({ tipo: 'danger', icon: '🔥', titulo: 'Altas Temperaturas', msg: `Máxima de ${stats.max}°C. Mantén hidratación.` })
+    res.push({ tipo: 'danger', icon: '<i class="fa-solid fa-fire"></i>', titulo: 'Altas Temperaturas', msg: `Máxima de ${stats.max}°C. Mantén hidratación.` })
   if (stats.lluviosos >= 2)
-    res.push({ tipo: 'warning', icon: '🌧️', titulo: 'Lluvias Frecuentes', msg: `${stats.lluviosos} días con precipitaciones previstas.` })
+    res.push({ tipo: 'warning', icon: '<i class="fa-solid fa-cloud-showers-heavy"></i>', titulo: 'Lluvias Frecuentes', msg: `${stats.lluviosos} días con precipitaciones previstas.` })
   if (stats.min <= 10)
-    res.push({ tipo: 'info', icon: '❄️', titulo: 'Bajas Temperaturas', msg: `Mínima de ${stats.min}°C. Abrígate por las mañanas.` })
+    res.push({ tipo: 'info', icon: '<i class="fa-solid fa-snowflake"></i>', titulo: 'Bajas Temperaturas', msg: `Mínima de ${stats.min}°C. Abrígate por las mañanas.` })
   if (!res.length)
-    res.push({ tipo: 'success', icon: '✅', titulo: 'Condiciones Favorables', msg: 'Sin alertas meteorológicas activas.' })
+    res.push({ tipo: 'success', icon: '<i class=\"fa-solid fa-check-circle\"></i>', titulo: 'Condiciones Favorables', msg: 'Sin alertas meteorológicas activas.' })
   return res
 }
