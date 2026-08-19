@@ -450,6 +450,8 @@ function handleFav(s) {
   justify-content: center;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   color: white;
   cursor: pointer;
   text-decoration: none;
